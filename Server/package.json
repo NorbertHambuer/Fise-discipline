@@ -1,0 +1,15 @@
+{
+  "name": "server",
+  "version": "0.0.0",
+  "description": "Server",
+  "main": "server.js",
+  "author": {
+    "name": "Ovidiu Podina"
+  },
+  "dependencies": {
+    "koa": "^2.5.0",
+    "koa-body": "^2.5.0",
+    "koa-router": "^7.4.0",
+    "koa-static": "^4.0.2"
+  }
+}
