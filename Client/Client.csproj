@@ -138,13 +138,15 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="app.css" />
     <Content Include="index.html" />
     <Content Include="scripts\app.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="app.ts" />
+    <TypeScriptCompile Include="app\home\home.ts" />
+    <Content Include="app\home\home.html" />
+    <TypeScriptCompile Include="app\config\route.ts" />
+    <TypeScriptCompile Include="app\config\config.ts" />
     <TypeScriptCompile Include="scripts\index.d.ts" />
     <TypeScriptCompile Include="scripts\typings\angularjs\angular-animate.d.ts" />
     <TypeScriptCompile Include="scripts\typings\angularjs\angular-component-router.d.ts" />

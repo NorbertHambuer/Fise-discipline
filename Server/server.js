@@ -6,14 +6,11 @@ const route = require('koa-router')();
 const body = require('koa-body')();
 
 
-const port = process.env.port || 10000;
+const port = process.env.port || 10001;
 const app = new koa();
 
-//app.use(serve(../client)); - urmeaza cand avem clientu
+app.use(serve('../client')); //- urmeaza cand avem clientu
 
-
-route.get('/', async ctx => ctx.body = '/')
-route.get('/test', async ctx => ctx.body = '/test');
 
 
 app.use(route.routes());

@@ -1,6 +1,6 @@
 ﻿<!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" ng-app="app">
 <head>
     <meta charset="utf-8" />
     <title>TypeScript HTML App</title>
@@ -9,7 +9,7 @@
 <body>
     <h1>TypeScript HTML App</h1>
 
-    <div id="content"></div>
+    <ng-view></ng-view>
 
     <script src="scripts/angular.min.js"></script>
     <script src="scripts/angular-route.min.js"></script>
