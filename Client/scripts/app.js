@@ -7,13 +7,10 @@ var app;
 (function (app_2) {
     var app = angular.module(app_2.moduleName);
     app.constant('routes', getRoutes());
-    app.config(['$routeProvider', 'routes', routeConfigurator]);
-    function routeConfigurator($routeProvider, routes) {
-        routes.forEach(function (r) {
-            $routeProvider.when(r.url, r.config);
-        });
-        $routeProvider.otherwise({ redirectTo: '/home' });
-    }
+    app.config(['$routeProvider', 'routes', function ($routeProvider, routes) {
+            routes.forEach(function (r) { return $routeProvider.when(r.url, r.config); });
+            $routeProvider.otherwise({ redirectTo: '/home' });
+        }]);
     function getRoutes() {
         return [
             {
@@ -21,8 +18,14 @@ var app;
                 config: {
                     controller: "Home", controllerAs: 'vm',
                     templateUrl: 'app/home/home.html',
-                    //icon: "fa-home",
                     title: 'Pagina de start'
+                }
+            }, {
+                url: '/test',
+                config: {
+                    controller: "Test", controllerAs: 'vm',
+                    templateUrl: 'app/test/test.html',
+                    title: 'Pagina de test'
                 }
             }
         ];
@@ -37,5 +40,15 @@ var app;
         return Home;
     }());
     angular.module(app.moduleName).controller('Home', Home);
+})(app || (app = {}));
+var app;
+(function (app) {
+    var Test = /** @class */ (function () {
+        function Test() {
+            this.message = 'test';
+        }
+        return Test;
+    }());
+    angular.module(app.moduleName).controller('Test', Test);
 })(app || (app = {}));
 //# sourceMappingURL=app.js.map

@@ -69,6 +69,7 @@
     <TypeScriptSourceRoot />
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="app\test\test.html" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
@@ -143,6 +144,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="app\test\test.ts" />
     <TypeScriptCompile Include="app\home\home.ts" />
     <Content Include="app\home\home.html" />
     <TypeScriptCompile Include="app\config\route.ts" />

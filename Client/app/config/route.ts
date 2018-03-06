@@ -4,14 +4,10 @@
 
     app.constant('routes', getRoutes());
 
-    app.config(['$routeProvider', 'routes', routeConfigurator]);
-    function routeConfigurator($routeProvider, routes) {
-
-        routes.forEach(function (r) {
-            $routeProvider.when(r.url, r.config);
-        });
+    app.config(['$routeProvider', 'routes', ($routeProvider, routes) => {
+        routes.forEach(r => $routeProvider.when(r.url, r.config));
         $routeProvider.otherwise({ redirectTo: '/home' });
-    }
+    }]);
 
     function getRoutes() {
         return [
@@ -20,8 +16,14 @@
                 config: {
                     controller: "Home", controllerAs: 'vm',
                     templateUrl: 'app/home/home.html',
-                    //icon: "fa-home",
                     title: 'Pagina de start'
+                }
+            }, {
+                url: '/test',
+                config: {
+                    controller: "Test", controllerAs: 'vm',
+                    templateUrl: 'app/test/test.html',
+                    title: 'Pagina de test'
                 }
             }
         ];
