@@ -1,4 +1,6 @@
-﻿module app {
+﻿/// <reference path="../config/config.ts" />
+
+module app {
     class Test {
         constructor() {
 

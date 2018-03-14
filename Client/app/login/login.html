@@ -1,0 +1,26 @@
+﻿<section>
+    <div class="container ">
+        <div class="row">
+            <div class="col-lg-12 mt-5 mb-5 centered">
+                <form>
+                    <div>
+                        <label>Nume utilizator:</label>
+                        <div>
+                            <input class="form-control" type="text" placeholder="Nume utilizator" ng-model="vm.username" />
+                        </div>
+                    </div>
+                    <div>
+                        <label>Parola:</label>
+                        <div>
+                            <input class="form-control" type="password" placeholder="Parola" ng-model="vm.password" />
+                        </div>
+                    </div>
+                    <div class="mt-2 ml-auto mr-auto">
+                        <button class="btn btn-success" ng-click="vm.login()">Log in</button>
+                        <button class="btn btn-danger" ng-click="vm.cancel()">Cancel</button>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+</section>
