@@ -6,7 +6,8 @@ const route = require('koa-router')();
 const body = require('koa-body')();
 const jwt = require('jsonwebtoken');
 const mongo = require('mongodb');
-const routes = require('./serverScripts.js');
+const requests = require('./serverScripts.js');
+let dbo;
 const app = new koa();
 
 var url = "mongodb://localhost:27017/";
@@ -17,16 +18,16 @@ mongo.connect(url, function (err, db) {
         throw err;
     }
     
-    var dbo = db.db("fise_discipline");
+    dbo = db.db("fise_discipline");
     
     dbo.listCollections().toArray(function (err, collInfos) {
         console.log(collInfos);
     });
 });
 
-route.get('/home', verifyToken, routes.home);
-route.post('/login', body, routes.login);
-route.post('/register', body, routes.register);
+route.get('/home', verifyToken, requests.home);
+route.post('/login', body, requests.login);
+route.post('/register', body, requests.register);
 
 app.use(serve('../client'));
 app.use(route.routes());
