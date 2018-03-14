@@ -11,8 +11,8 @@ module app {
             if (this.username && this.password) {
                 this.$http.post('/login', { username: this.username, password: this.password })
                     .then(data => {
-                        let token = data.data.token;
-                        console.log('token:', token);
+                        //let token = data.data.token;
+                        //console.log('token:', token);
                     }, err => {
                         console.log(err);
                     });

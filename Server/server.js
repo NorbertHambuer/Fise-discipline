@@ -6,6 +6,7 @@ const route = require('koa-router')();
 const body = require('koa-body')();
 const jwt = require('jsonwebtoken');
 const mongo = require('mongodb');
+const routes = require('./serverScripts.js');
 const app = new koa();
 
 var url = "mongodb://localhost:27017/";
@@ -23,36 +24,9 @@ mongo.connect(url, function (err, db) {
     });
 });
 
-route.get('/home', verifyToken, async ctx => {
-    console.log('home');
-    ctx.body = 'done home';
-})
-
-route.post('/test', body, verifyToken, async ctx => {
-    console.log('test');
-    ctx.body = 'done';
-});
-
-route.post('/login', body, async ctx => {
-    const user = {
-        username: ctx.request.body.username,
-        password: ctx.request.body.password
-    }
-
-    let promise = new Promise((res, rej) => {
-        jwt.sign({ user }, 'secretkey', { expiresIn: '1d' }, (err, token) => {
-            if (err) {
-                rej(err);
-            }
-            console.log(token);
-
-            res({ token: token });
-        });
-    })
-
-    ctx.body = await promise;
-});
-
+route.get('/home', verifyToken, routes.home);
+route.post('/login', body, routes.login);
+route.post('/register', body, routes.register);
 
 app.use(serve('../client'));
 app.use(route.routes());
