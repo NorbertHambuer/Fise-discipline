@@ -14,6 +14,7 @@ async function login(ctx) {
         username: ctx.request.body.username,
         password: ctx.request.body.password
     }
+   
 
     let promise = new Promise((res, rej) => {
         jwt.sign({ user }, 'secretkey', { expiresIn: '1d' }, (err, token) => {
@@ -30,6 +31,7 @@ async function login(ctx) {
 }
 
 async function register(ctx) {
+    let success = false;
     const newUser = {
         fName: ctx.request.body.fName,
         lName: ctx.request.body.lName,
@@ -38,9 +40,23 @@ async function register(ctx) {
         email: ctx.request.body.email
     }
 
-    // il adaugi in baza de date
+    let utilizatori = dbo.collection('utilizatori');
+    let query = {
+        email: newUser.email,
+        username: newUser.username
+    }
 
-    ctx.body = 'done';
+    utilizatori.find(query).toArray(function (err, result) {
+        if (err)
+            throw err;
+        if (!result) {
+            utilizatori.insert({ username: newUser.username, pass: newUser.password, nume: newUser.fName, prenume: newUser.lName, email: newUser.email });
+            success = true;
+        }
+
+    });
+
+    ctx.body = success;
 }
 
 async function home(ctx) {

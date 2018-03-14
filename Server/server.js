@@ -7,7 +7,6 @@ const body = require('koa-body')();
 const mongo = require('mongodb');
 const routes = require('./serverScripts.js');
 const app = new koa();
-let dbo;
 const url = "mongodb://localhost:27017/";
 
 mongo.connect(url, function (err, db) {
@@ -16,11 +15,12 @@ mongo.connect(url, function (err, db) {
         throw err;
     }
     
-    dbo = db.db("fise_discipline");
-
+    global.dbo = db.db("fise_discipline");
+    /*
     dbo.listCollections().toArray(function (err, collInfos) {
         console.log(collInfos);
     });
+    */
 });
 
 route.get('/home', routes.verifyToken, routes.home);
