@@ -5,7 +5,23 @@ const serve  = require('koa-static');
 const route = require('koa-router')();
 const body = require('koa-body')();
 const jwt = require('jsonwebtoken');
+const mongo = require('mongodb');
 const app = new koa();
+
+var url = "mongodb://localhost:27017/";
+
+mongo.connect(url, function (err, db) {
+    if (err) {
+        console.log(err);
+        throw err;
+    }
+    
+    var dbo = db.db("fise_discipline");
+    
+    dbo.listCollections().toArray(function (err, collInfos) {
+        console.log(collInfos);
+    });
+});
 
 route.get('/home', verifyToken, async ctx => {
     console.log('home');
