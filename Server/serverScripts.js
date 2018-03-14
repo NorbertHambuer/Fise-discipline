@@ -1,9 +1,12 @@
 'use strict';
 
+const jwt = require('jsonwebtoken');
+
 module.exports = {
     login: login,
     register: register,
-    home: home
+    home: home,
+    verifyToken: verifyToken
 }
 
 async function login(ctx) {
@@ -43,4 +46,27 @@ async function register(ctx) {
 async function home(ctx) {
     console.log('home');
     ctx.body = 'done home';
+}
+
+async function verifyToken(ctx, next) {
+    console.log('intra');
+    const bearerHeader = ctx.request.headers['authorization'];
+    console.log(bearerHeader);
+    if (bearerHeader) {
+        ctx.request.token = bearerHeader.split(' ')[1];
+
+        let p = new Promise((res, rej) => {
+            jwt.verify(ctx.request.token, 'secretkey', (err, authData) => {
+                if (err) {
+                    rej(err);
+                }
+                res(authData);
+            });
+        });
+        await p;
+
+        next();
+    } else {
+        ctx.status = 403;
+    }
 }
