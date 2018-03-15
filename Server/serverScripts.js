@@ -10,6 +10,8 @@ module.exports = {
 }
 
 async function login(ctx) {
+    console.log(db);
+
     const user = {
         username: ctx.request.body.username,
         password: ctx.request.body.password
@@ -30,6 +32,7 @@ async function login(ctx) {
 }
 
 async function register(ctx) {
+    console.log(ctx.request.body);
     const newUser = {
         fName: ctx.request.body.fName,
         lName: ctx.request.body.lName,

@@ -7,10 +7,9 @@ module app {
         user;
 
         register() {
-            if (this.user.email && this.user.password && this.user.email) {
-
-            } else {
-                alert('Completati toate campurile!');
+            if (this.user !== undefined) {
+                if (this.user.username !== unde)
+                console.log('works');
             }
         }
 

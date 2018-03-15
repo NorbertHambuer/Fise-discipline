@@ -31,9 +31,6 @@ app.use(serve('../client'));
 app.use(route.routes());
 app.use(route.allowedMethods());
 
-
-
-
 const port = process.env.port || 10001;
 
 app.listen(port, () => {
