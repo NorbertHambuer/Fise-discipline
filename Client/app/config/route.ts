@@ -10,13 +10,12 @@ module app {
         routes.forEach(r => $routeProvider.when(r.url, r.config));
         $routeProvider.otherwise({ redirectTo: '/home' });
     }]);
-    /*
-    app.run(($rootScope, SessionService: SessionService, routes) => {
+
+    app.run(($rootScope, user: UserService, routes) => {
         $rootScope.$on('$locationChangeStart', (event, next, current) => {
-            console.log(routes);
-            for (let i in routes) {
-                if (next.indexOf(i) != -1) {
-                    if (routes[i].config.requireLogin && !SessionService.getUserAuthenticated()) {
+            for (let route of routes) {
+                if (next.indexOf(route.url) != -1) {
+                    if (route.config.requireLogin && !user.identity.isAuthenticated) {
                         alert("You need to be authenticated to see this page!");
                         event.preventDefault();
                     }
@@ -24,7 +23,7 @@ module app {
             }
         });
     });
-    */
+    
     function getRoutes() {
         return [
             {

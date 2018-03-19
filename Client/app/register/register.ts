@@ -2,15 +2,22 @@
 
 module app {
     class Register {
-        constructor(private $http: ng.IHttpService, private $location: ng.ILocationService) { }
+        constructor(private $location: ng.ILocationService, private user: UserService) { }
 
-        user;
+        username;
+        password;
+        fName;
+        lName;
+        email;
+
 
         register() {
-            if (this.user !== undefined) {
-                if (this.user.username !== unde)
-                console.log('works');
-            }
+            this.user.register(this.username, this.password, this.fName, this.lName, this.email)
+                .then(data => {
+                    this.$location.path('/home');
+                }, err => {
+                    console.log(err);
+                })
         }
 
         cancel() {

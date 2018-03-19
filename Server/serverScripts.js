@@ -14,7 +14,8 @@ async function login(ctx) {
         username: ctx.request.body.username,
         password: ctx.request.body.password
     }
-   
+
+    // trebe verificat in db useru
 
     let promise = new Promise((res, rej) => {
         jwt.sign({ user }, 'secretkey', { expiresIn: '1d' }, (err, token) => {
@@ -83,6 +84,6 @@ async function verifyToken(ctx, next) {
 
         next();
     } else {
-        ctx.status = 403;
+        ctx.status = 401;
     }
 }
