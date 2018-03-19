@@ -31,7 +31,7 @@ async function login(ctx) {
     ctx.body = await promise;
 }
 
-async function register(ctx) {
+async function register(ctx) {    
     let success = false;
     const newUser = {
         fName: ctx.request.body.fName,
@@ -40,7 +40,7 @@ async function register(ctx) {
         password: ctx.request.body.password,
         email: ctx.request.body.email
     }
-
+    
     let utilizatori = dbo.collection('utilizatori');
     let query = {
         email: newUser.email,
@@ -49,8 +49,8 @@ async function register(ctx) {
 
     utilizatori.find(query).toArray(function (err, result) {
         if (err)
-            throw err;
-        if (!result) {
+            throw err;        
+        if (!result.length) {            
             utilizatori.insert({ username: newUser.username, pass: newUser.password, nume: newUser.fName, prenume: newUser.lName, email: newUser.email });
             success = true;
         }
