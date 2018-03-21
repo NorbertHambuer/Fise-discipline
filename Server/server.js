@@ -53,9 +53,10 @@ mongo.connect(url, function (err, db) {
     });*/
 });
 
-route.get('/home', routes.verifyToken, routes.home);
+route.get('/home', routes.home);
 route.post('/login', body, routes.login);
 route.post('/register', body, routes.register);
+
 
 app.use(serve('../client'));
 app.use(route.routes());

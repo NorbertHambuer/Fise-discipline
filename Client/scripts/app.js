@@ -161,8 +161,18 @@ var app;
         function Home($http, $location) {
             this.$http = $http;
             this.$location = $location;
-            this.message = 'Salut';
+            this.getData();
         }
+        Home.prototype.getData = function () {
+            var _this = this;
+            this.$http.get('/home')
+                .then(function (data) {
+                console.log(data);
+                _this.data = data.data;
+            }, function (err) {
+                console.log(err);
+            });
+        };
         return Home;
     }());
     angular.module(app.moduleName).controller('Home', Home);
