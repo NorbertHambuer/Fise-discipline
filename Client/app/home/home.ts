@@ -3,10 +3,20 @@
 module app {
     class Home {
         constructor(private $http: ng.IHttpService, private $location: ng.ILocationService) {
-
+            this.getData();
         }
 
-        message = 'Salut';
+        getData() {
+            this.$http.get('/home')
+                .then(data => {
+                    console.log(data);
+                    this.data = data.data;
+                }, err => {
+                    console.log(err);
+                });
+        }
+
+        data;// = 'Salut';
 
     }
 

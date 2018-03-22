@@ -1,3 +1,50 @@
 ﻿<section>
-    <h1>{{ vm.message }}</h1>
+    <div class="container">
+        <div class="row" ng-repeat="item in vm.data">
+            <div class="col-md-12 mt-5">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3>Anul: {{item.data[0].an}}</h3>
+                    </div>
+                    <div>
+                        <h3>Semestru: {{item.data[0].sem}}</h3>
+                    </div>
+                </div>
+
+                <table class="table table-striped">
+                    <thead>
+                        <th>Ord</th>
+                        <th>Disciplina</th>
+                        <th>C</th>
+                        <th>S</th>
+                        <th>L</th>
+                        <th>P</th>
+                        <th>CR</th>
+                        <th>Eval</th>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="el in item.data">
+                            <td>{{ el.ord }}</td>
+                            <td>{{ el.disciplina }}</td>
+                            <td>{{ el.C }}</td>
+                            <td>{{ el.S }}</td>
+                            <td>{{ el.L }}</td>
+                            <td>{{ el.P }}</td>
+                            <td>{{ el.CR }}</td>
+                            <td>{{ el.Evaluare }}</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>TOTAL <span style="padding-left: 70%;">{{ item.C + item.S + item.L }} ore/sapt</span></td>
+                            <td>{{ item.C }}</td>
+                            <td>{{ item.S }}</td>
+                            <td>{{ item.L }}</td>
+                            <td>{{ item.P }}</td>
+                            <td>{{ item.CR }}</td>
+                            <td>-</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>    
 </section>
