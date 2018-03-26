@@ -11,6 +11,7 @@ module.exports = {
 }
 
 async function login(ctx) {
+    getMateriiDb("1");
     const user = {
         username: ctx.request.body.username,
         password: ctx.request.body.password
@@ -311,4 +312,31 @@ async function verifyToken(ctx, next) {
     } else {
         ctx.status = 401;
     }
+}
+
+async function getSeriiArray() {
+    let data = [];
+
+    serii.find({}, function (err, seriiData) {        
+        seriiData.forEach(function (serie) {            
+            data[serie._id] = serie.an_start + " - " + serie.an_stop;
+        });        
+        
+    }).then(function () { return data; });
+
+    
+}
+
+async function getMateriiDb(ctx) {
+    let data = [];
+    let seriiData = await getSeriiArray();
+
+    
+    materii.find({}).sort({ 'id_serie': 1,'an': 1,'sem':1 ,'ord':1}).exec( function (err, materiiData) {
+        materiiData.forEach(function (materie) {            
+           data.push(materie);
+        });
+       // ctx.body = data;        
+    });    
+
 }
