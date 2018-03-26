@@ -6,7 +6,8 @@ module.exports = {
     login: login,
     register: register,
     home: home,
-    verifyToken: verifyToken
+    verifyToken: verifyToken,
+    newSeries: newSeries
 }
 
 async function login(ctx) {
@@ -273,6 +274,11 @@ async function home(ctx) {
     });
 
     ctx.body = data;
+}
+
+async function newSeries(ctx) {
+    console.log(ctx.request.body);
+    ctx.body = 'Done!';
 }
 
 async function verifyToken(ctx, next) {

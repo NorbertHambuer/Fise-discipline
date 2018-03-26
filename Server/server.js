@@ -56,6 +56,7 @@ mongo.connect(url, function (err, db) {
 route.get('/home', routes.home);
 route.post('/login', body, routes.login);
 route.post('/register', body, routes.register);
+route.post('/newSeries', body, routes.newSeries);
 
 
 app.use(serve('../client'));

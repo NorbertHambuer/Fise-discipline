@@ -58,6 +58,22 @@ module app {
                     title: 'Register',
                     requireLogin: false
                 }
+            }, {
+                url: '/add',
+                config: {
+                    controller: "Add", controllerAs: "vm",
+                    templateUrl: 'app/add/add.html',
+                    title: 'Add',
+                    requireLogin: true
+                }
+            }, {
+                url: '/edit',
+                config: {
+                    controller: "Edit", controllerAs: "vm",
+                    templateUrl: 'app/edit/edit.html',
+                    title: 'Edit',
+                    requireLogin: true
+                }
             }
         ];
     }
