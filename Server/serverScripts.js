@@ -15,9 +15,17 @@ async function login(ctx) {
         username: ctx.request.body.username,
         password: ctx.request.body.password
     }
+    let found = false;
+    utilizatori.find({ $and: [{ 'username': user.username }, { 'pass': user.password }] }, function (err, result) {
+        if (err)
+            throw err;
+        if (result.length != 0) {
+            found = true;
+        }
 
-    // trebe verificat in db useru
-
+    }).then(function () {
+        console.log("here");
+    });
     let promise = new Promise((res, rej) => {
         jwt.sign({ user }, 'secretkey', { expiresIn: '1d' }, (err, token) => {
             if (err) {
@@ -27,12 +35,12 @@ async function login(ctx) {
 
             res({ token: token });
         });
-    })
+    });
 
     ctx.body = await promise;
 }
 
-async function register(ctx) {    
+async function register(ctx) {
     let success = false;
     const newUser = {
         fName: ctx.request.body.fName,
@@ -41,18 +49,20 @@ async function register(ctx) {
         password: ctx.request.body.password,
         email: ctx.request.body.email
     }
-    
-    let utilizatori = dbo.collection('utilizatori');
+
+
     let query = {
         email: newUser.email,
         username: newUser.username
     }
 
-    utilizatori.find(query).toArray(function (err, result) {
+    utilizatori.find(query, function (err, result) {
         if (err)
-            throw err;        
-        if (!result.length) {            
-            utilizatori.insert({ username: newUser.username, pass: newUser.password, nume: newUser.fName, prenume: newUser.lName, email: newUser.email });
+            throw err;
+
+
+        if (!result.length) {
+            utilizatori.create({ username: newUser.username, pass: newUser.password, nume: newUser.fName, prenume: newUser.lName, email: newUser.email });
             success = true;
         }
 
@@ -60,7 +70,6 @@ async function register(ctx) {
 
     ctx.body = success;
 }
-
 async function home(ctx) {
     let data = {
         a1s1: {
