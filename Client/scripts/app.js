@@ -160,87 +160,27 @@ var app;
     var Add = /** @class */ (function () {
         function Add($http) {
             this.$http = $http;
+            this.an = [1, 2, 3, 4];
+            this.sem = [1, 2];
+            this.anSelectat = this.an[0];
+            this.semSelectat = this.sem[0];
             this.numeSerie = '';
-            this.materiia1s1 = [{}];
-            this.materiia1s2 = [{}];
-            this.materiia2s1 = [{}];
-            this.materiia2s2 = [{}];
-            this.materiia3s1 = [{}];
-            this.materiia3s2 = [{}];
-            this.materiia4s1 = [{}];
-            this.materiia4s2 = [{}];
+            this.materii = [];
         }
         Add.prototype.adMat = function (id) {
-            switch (id) {
-                case 1:
-                    this.materiia1s1.push({});
-                    break;
-                case 2:
-                    this.materiia1s2.push({});
-                    break;
-                case 3:
-                    this.materiia2s1.push({});
-                    break;
-                case 4:
-                    this.materiia2s2.push({});
-                    break;
-                case 5:
-                    this.materiia3s1.push({});
-                    break;
-                case 6:
-                    this.materiia3s2.push({});
-                    break;
-                case 7:
-                    this.materiia4s1.push({});
-                    break;
-                case 8:
-                    this.materiia4s2.push({});
-                    break;
-            }
+            this.materii.push({ an: this.anSelectat, semestru: this.semSelectat });
+        };
+        Add.prototype.saveSem = function () {
         };
         Add.prototype.delMat = function (id) {
-            switch (id) {
-                case 1:
-                    this.materiia1s1.pop();
-                    break;
-                case 2:
-                    this.materiia1s2.pop();
-                    break;
-                case 3:
-                    this.materiia2s1.pop();
-                    break;
-                case 4:
-                    this.materiia2s2.pop();
-                    break;
-                case 5:
-                    this.materiia3s1.pop();
-                    break;
-                case 6:
-                    this.materiia3s2.pop();
-                    break;
-                case 7:
-                    this.materiia4s1.pop();
-                    break;
-                case 8:
-                    this.materiia4s2.pop();
-                    break;
-            }
+            this.materii.pop();
         };
         Add.prototype.salveazaSerie = function () {
-            var serie = {
-                numeSerie: this.numeSerie,
-                a1s1: this.materiia1s1,
-                a1s2: this.materiia1s2,
-                a2s1: this.materiia2s1,
-                a2s2: this.materiia2s2,
-                a3s1: this.materiia3s1,
-                a3s2: this.materiia3s2,
-                a4s1: this.materiia4s1,
-                a4s2: this.materiia4s2,
-            };
-            this.$http.post('/newSeries', { serie: serie })
+            var _this = this;
+            this.$http.post('/newSeries', { serie: this.numeSerie, materii: this.materii })
                 .then(function (data) {
                 console.log(data);
+                _this.materii = [];
             }, function (err) {
                 console.log(err);
             });

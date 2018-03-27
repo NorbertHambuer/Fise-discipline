@@ -71,6 +71,7 @@ async function register(ctx) {
 
     ctx.body = success;
 }
+
 async function home(ctx) {
     let data = {
         a1s1: {
@@ -317,26 +318,20 @@ async function verifyToken(ctx, next) {
 async function getSeriiArray() {
     let data = [];
 
-    serii.find({}, function (err, seriiData) {        
-        seriiData.forEach(function (serie) {            
-            data[serie._id] = serie.an_start + " - " + serie.an_stop;
-        });        
-        
-    }).then(function () { return data; });
+    let sr = await serii.find({});
 
-    
+    sr.forEach(function (serie) {
+        data[serie._id] = serie.an_start + " - " + serie.an_stop;
+    });
+
+    return sr;
 }
 
 async function getMateriiDb(ctx) {
     let data = [];
     let seriiData = await getSeriiArray();
-
     
-    materii.find({}).sort({ 'id_serie': 1,'an': 1,'sem':1 ,'ord':1}).exec( function (err, materiiData) {
-        materiiData.forEach(function (materie) {            
-           data.push(materie);
-        });
-       // ctx.body = data;        
-    });    
+    let mt = await materii.find({}).sort({ 'id_serie': 1,'an': 1,'sem':1 ,'ord':1});    
 
+    return mt;
 }
