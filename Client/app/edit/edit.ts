@@ -1,13 +1,13 @@
 ﻿/// <reference path="../config/config.ts" />
 
 module app {
-    class Test {
+    class Edit {
         constructor() {
 
         }
 
-        message = 'test';
+        message = 'Edit';
     }
 
-    angular.module(moduleName).controller('Test', <any>Test);
+    angular.module(moduleName).controller('Edit', <any>Edit);
 }

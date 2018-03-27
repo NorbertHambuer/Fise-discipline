@@ -146,13 +146,108 @@ var app;
 /// <reference path="../config/config.ts" />
 var app;
 (function (app) {
-    var Test = /** @class */ (function () {
-        function Test() {
-            this.message = 'test';
+    var Edit = /** @class */ (function () {
+        function Edit() {
+            this.message = 'Edit';
         }
-        return Test;
+        return Edit;
     }());
-    angular.module(app.moduleName).controller('Test', Test);
+    angular.module(app.moduleName).controller('Edit', Edit);
+})(app || (app = {}));
+/// <reference path="../config/config.ts" />
+var app;
+(function (app) {
+    var Add = /** @class */ (function () {
+        function Add($http) {
+            this.$http = $http;
+            this.numeSerie = '';
+            this.materiia1s1 = [{}];
+            this.materiia1s2 = [{}];
+            this.materiia2s1 = [{}];
+            this.materiia2s2 = [{}];
+            this.materiia3s1 = [{}];
+            this.materiia3s2 = [{}];
+            this.materiia4s1 = [{}];
+            this.materiia4s2 = [{}];
+        }
+        Add.prototype.adMat = function (id) {
+            switch (id) {
+                case 1:
+                    this.materiia1s1.push({});
+                    break;
+                case 2:
+                    this.materiia1s2.push({});
+                    break;
+                case 3:
+                    this.materiia2s1.push({});
+                    break;
+                case 4:
+                    this.materiia2s2.push({});
+                    break;
+                case 5:
+                    this.materiia3s1.push({});
+                    break;
+                case 6:
+                    this.materiia3s2.push({});
+                    break;
+                case 7:
+                    this.materiia4s1.push({});
+                    break;
+                case 8:
+                    this.materiia4s2.push({});
+                    break;
+            }
+        };
+        Add.prototype.delMat = function (id) {
+            switch (id) {
+                case 1:
+                    this.materiia1s1.pop();
+                    break;
+                case 2:
+                    this.materiia1s2.pop();
+                    break;
+                case 3:
+                    this.materiia2s1.pop();
+                    break;
+                case 4:
+                    this.materiia2s2.pop();
+                    break;
+                case 5:
+                    this.materiia3s1.pop();
+                    break;
+                case 6:
+                    this.materiia3s2.pop();
+                    break;
+                case 7:
+                    this.materiia4s1.pop();
+                    break;
+                case 8:
+                    this.materiia4s2.pop();
+                    break;
+            }
+        };
+        Add.prototype.salveazaSerie = function () {
+            var serie = {
+                numeSerie: this.numeSerie,
+                a1s1: this.materiia1s1,
+                a1s2: this.materiia1s2,
+                a2s1: this.materiia2s1,
+                a2s2: this.materiia2s2,
+                a3s1: this.materiia3s1,
+                a3s2: this.materiia3s2,
+                a4s1: this.materiia4s1,
+                a4s2: this.materiia4s2,
+            };
+            this.$http.post('/newSeries', { serie: serie })
+                .then(function (data) {
+                console.log(data);
+            }, function (err) {
+                console.log(err);
+            });
+        };
+        return Add;
+    }());
+    angular.module(app.moduleName).controller('Add', Add);
 })(app || (app = {}));
 /// <reference path="../config/config.ts" />
 var app;
@@ -232,6 +327,22 @@ var app;
                     templateUrl: 'app/register/register.html',
                     title: 'Register',
                     requireLogin: false
+                }
+            }, {
+                url: '/add',
+                config: {
+                    controller: "Add", controllerAs: "vm",
+                    templateUrl: 'app/add/add.html',
+                    title: 'Add',
+                    requireLogin: true
+                }
+            }, {
+                url: '/edit',
+                config: {
+                    controller: "Edit", controllerAs: "vm",
+                    templateUrl: 'app/edit/edit.html',
+                    title: 'Edit',
+                    requireLogin: true
                 }
             }
         ];

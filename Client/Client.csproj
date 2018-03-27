@@ -71,7 +71,8 @@
   <ItemGroup>
     <Content Include="app\navbar\navbar.html" />
     <Content Include="app\register\register.html" />
-    <Content Include="app\test\test.html" />
+    <Content Include="app\edit\edit.html" />
+    <Content Include="app\add\add.html" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
@@ -160,7 +161,8 @@
     <TypeScriptCompile Include="app\services\AuthService.ts" />
     <TypeScriptCompile Include="app\services\UserService.ts" />
     <TypeScriptCompile Include="app\register\register.ts" />
-    <TypeScriptCompile Include="app\test\test.ts" />
+    <TypeScriptCompile Include="app\edit\edit.ts" />
+    <TypeScriptCompile Include="app\add\add.ts" />
     <TypeScriptCompile Include="app\home\home.ts" />
     <Content Include="app\home\home.html" />
     <TypeScriptCompile Include="app\config\route.ts" />

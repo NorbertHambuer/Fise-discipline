@@ -1,0 +1,306 @@
+﻿<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 mr-auto ml-auto mt-2">
+                <span>Serie:</span>
+                <div>
+                    <input class="form-control" type="text" ng-model="vm.numeSerie"/>
+                    <button class="btn btn-info mt-1" ng-click="vm.salveazaSerie()">Salveaza seria</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 mt-5">
+                <span>Anul 1, Semestrul 1</span>
+                <div class="mt-1">
+                    <div class="row" ng-repeat="materii in vm.materiia1s1">
+                        <div class="col-sm-6" style="padding-right: 0px">
+                            <input class="form-control" type="text" placeholder="Nume materie ..." ng-model="materii.numeMaterie" />
+                        </div>
+                        <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                            <input class="form-control" type="text" placeholder="C" ng-model="materii.C" />
+                        </div>
+                        <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                            <input class="form-control" type="text" placeholder="S" ng-model="materii.S" />
+                        </div>
+                        <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                            <input class="form-control" type="text" placeholder="L" ng-model="materii.L" />
+                        </div>
+                        <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                            <input class="form-control" type="text" placeholder="P" ng-model="materii.P" />
+                        </div>
+                        <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                            <input class="form-control" type="text" placeholder="CR" ng-model="materii.CR" />
+                        </div>
+                        <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                            <input class="form-control" type="text" placeholder="Eval" ng-model="materii.Eval" />
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <button class="btn btn-success" ng-click="vm.adMat(1)">Adauga materie</button>
+                        <button class="btn btn-danger" ng-click="vm.delMat(1)">Sterge materie</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 mt-5">
+                <span>Anul 1, Semestrul 2</span>
+                <div class="mt-1">
+                    <div class="mt-1">
+                        <div class="row" ng-repeat="materii in vm.materiia1s2">
+                            <div class="col-sm-6" style="padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="Nume materie ..." ng-model="materii.numeMaterie" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="C" ng-model="materii.C" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="S" ng-model="materii.S" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="L" ng-model="materii.L" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="P" ng-model="materii.P" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="CR" ng-model="materii.CR" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="Eval" ng-model="materii.Eval" />
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <button class="btn btn-success" ng-click="vm.adMat(2)">Adauga materie</button>
+                            <button class="btn btn-danger" ng-click="vm.delMat(2)">Sterge materie</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 mt-5">
+                <span>Anul 2, Semestrul 1</span>
+                <div class="mt-1">
+                    <div class="mt-1">
+                        <div class="row" ng-repeat="materii in vm.materiia2s1">
+                            <div class="col-sm-6" style="padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="Nume materie ..." ng-model="materii.numeMaterie" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="C" ng-model="materii.C" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="S" ng-model="materii.S" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="L" ng-model="materii.L" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="P" ng-model="materii.P" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="CR" ng-model="materii.CR" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="Eval" ng-model="materii.Eval" />
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <button class="btn btn-success" ng-click="vm.adMat(3)">Adauga materie</button>
+                            <button class="btn btn-danger" ng-click="vm.delMat(3)">Sterge materie</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 mt-5">
+                <span>Anul 2, Semestrul 2</span>
+                <div class="mt-1">
+                    <div class="mt-1">
+                        <div class="row" ng-repeat="materii in vm.materiia2s2">
+                            <div class="col-sm-6" style="padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="Nume materie ..." ng-model="materii.numeMaterie" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="C" ng-model="materii.C" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="S" ng-model="materii.S" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="L" ng-model="materii.L" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="P" ng-model="materii.P" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="CR" ng-model="materii.CR" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="Eval" ng-model="materii.Eval" />
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <button class="btn btn-success" ng-click="vm.adMat(4)">Adauga materie</button>
+                            <button class="btn btn-danger" ng-click="vm.delMat(4)">Sterge materie</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 mt-5">
+                <span>Anul 3, Semestrul 1</span>
+                <div class="mt-1">
+                    <div class="mt-1">
+                        <div class="row" ng-repeat="materii in vm.materiia3s1">
+                            <div class="col-sm-6" style="padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="Nume materie ..." ng-model="materii.numeMaterie" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="C" ng-model="materii.C" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="S" ng-model="materii.S" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="L" ng-model="materii.L" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="P" ng-model="materii.P" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="CR" ng-model="materii.CR" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="Eval" ng-model="materii.Eval" />
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <button class="btn btn-success" ng-click="vm.adMat(5)">Adauga materie</button>
+                            <button class="btn btn-danger" ng-click="vm.delMat(5)">Sterge materie</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 mt-5">
+                <span>Anul 3, Semestrul 2</span>
+                <div class="mt-1">
+                    <div class="mt-1">
+                        <div class="row" ng-repeat="materii in vm.materiia3s2">
+                            <div class="col-sm-6" style="padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="Nume materie ..." ng-model="materii.numeMaterie" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="C" ng-model="materii.C" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="S" ng-model="materii.S" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="L" ng-model="materii.L" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="P" ng-model="materii.P" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="CR" ng-model="materii.CR" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="Eval" ng-model="materii.Eval" />
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <button class="btn btn-success" ng-click="vm.adMat(6)">Adauga materie</button>
+                            <button class="btn btn-danger" ng-click="vm.delMat(6)">Sterge materie</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 mt-5">
+                <span>Anul 4, Semestrul 1</span>
+                <div class="mt-1">
+                    <div class="mt-1">
+                        <div class="row" ng-repeat="materii in vm.materiia4s1">
+                            <div class="col-sm-6" style="padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="Nume materie ..." ng-model="materii.numeMaterie" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="C" ng-model="materii.C" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="S" ng-model="materii.S" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="L" ng-model="materii.L" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="P" ng-model="materii.P" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="CR" ng-model="materii.CR" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="Eval" ng-model="materii.Eval" />
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <button class="btn btn-success" ng-click="vm.adMat(7)">Adauga materie</button>
+                            <button class="btn btn-danger" ng-click="vm.delMat(7)">Sterge materie</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 mt-5">
+                <span>Anul 4, Semestrul 2</span>
+                <div class="mt-1">
+                    <div class="mt-1">
+                        <div class="row" ng-repeat="materii in vm.materiia4s2">
+                            <div class="col-sm-6" style="padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="Nume materie ..." ng-model="materii.numeMaterie" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="C" ng-model="materii.C" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="S" ng-model="materii.S" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="L" ng-model="materii.L" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="P" ng-model="materii.P" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="CR" ng-model="materii.CR" />
+                            </div>
+                            <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
+                                <input class="form-control" type="text" placeholder="Eval" ng-model="materii.Eval" />
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <button class="btn btn-success" ng-click="vm.adMat(8)">Adauga materie</button>
+                            <button class="btn btn-danger" ng-click="vm.delMat(8)">Sterge materie</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

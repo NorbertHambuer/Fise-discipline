@@ -6,17 +6,27 @@ module.exports = {
     login: login,
     register: register,
     home: home,
-    verifyToken: verifyToken
+    verifyToken: verifyToken,
+    newSeries: newSeries
 }
 
 async function login(ctx) {
+    getMateriiDb("1");
     const user = {
         username: ctx.request.body.username,
         password: ctx.request.body.password
     }
+    let found = false;
+    utilizatori.find({ $and: [{ 'username': user.username }, { 'pass': user.password }] }, function (err, result) {
+        if (err)
+            throw err;
+        if (result.length != 0) {
+            found = true;
+        }
 
-    // trebe verificat in db useru
-
+    }).then(function () {
+        console.log("here");
+    });
     let promise = new Promise((res, rej) => {
         jwt.sign({ user }, 'secretkey', { expiresIn: '1d' }, (err, token) => {
             if (err) {
@@ -26,12 +36,12 @@ async function login(ctx) {
 
             res({ token: token });
         });
-    })
+    });
 
     ctx.body = await promise;
 }
 
-async function register(ctx) {    
+async function register(ctx) {
     let success = false;
     const newUser = {
         fName: ctx.request.body.fName,
@@ -40,18 +50,20 @@ async function register(ctx) {
         password: ctx.request.body.password,
         email: ctx.request.body.email
     }
-    
-    let utilizatori = dbo.collection('utilizatori');
+
+
     let query = {
         email: newUser.email,
         username: newUser.username
     }
 
-    utilizatori.find(query).toArray(function (err, result) {
+    utilizatori.find(query, function (err, result) {
         if (err)
-            throw err;        
-        if (!result.length) {            
-            utilizatori.insert({ username: newUser.username, pass: newUser.password, nume: newUser.fName, prenume: newUser.lName, email: newUser.email });
+            throw err;
+
+
+        if (!result.length) {
+            utilizatori.create({ username: newUser.username, pass: newUser.password, nume: newUser.fName, prenume: newUser.lName, email: newUser.email });
             success = true;
         }
 
@@ -59,7 +71,6 @@ async function register(ctx) {
 
     ctx.body = success;
 }
-
 async function home(ctx) {
     let data = {
         a1s1: {
@@ -275,6 +286,11 @@ async function home(ctx) {
     ctx.body = data;
 }
 
+async function newSeries(ctx) {
+    console.log(ctx.request.body);
+    ctx.body = 'Done!';
+}
+
 async function verifyToken(ctx, next) {
     console.log('intra');
     const bearerHeader = ctx.request.headers['authorization'];
@@ -296,4 +312,31 @@ async function verifyToken(ctx, next) {
     } else {
         ctx.status = 401;
     }
+}
+
+async function getSeriiArray() {
+    let data = [];
+
+    serii.find({}, function (err, seriiData) {        
+        seriiData.forEach(function (serie) {            
+            data[serie._id] = serie.an_start + " - " + serie.an_stop;
+        });        
+        
+    }).then(function () { return data; });
+
+    
+}
+
+async function getMateriiDb(ctx) {
+    let data = [];
+    let seriiData = await getSeriiArray();
+
+    
+    materii.find({}).sort({ 'id_serie': 1,'an': 1,'sem':1 ,'ord':1}).exec( function (err, materiiData) {
+        materiiData.forEach(function (materie) {            
+           data.push(materie);
+        });
+       // ctx.body = data;        
+    });    
+
 }
