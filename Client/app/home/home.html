@@ -14,6 +14,7 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
+                            <td ng-show="vm.user.identity.isAuthenticated"></td>
                             <th>Ord</th>
                             <th>Disciplina</th>
                             <th>C</th>
@@ -26,6 +27,7 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="el in item.data">
+                            <td ng-show="vm.user.identity.isAuthenticated"><i class="fa fa-fw fa-edit" ng-click="vm.editMaterie(el.ord)"></i></td>
                             <td>{{ el.ord }}</td>
                             <td>{{ el.disciplina }}</td>
                             <td>{{ el.C }}</td>
@@ -36,8 +38,8 @@
                             <td>{{ el.Evaluare }}</td>
                         </tr>
                         <tr>
-                            <td></td>
-                            <td>TOTAL <span style="padding-left: 70%;">{{ item.C + item.S + item.L }} ore/sapt</span></td>
+                            <td> - </td>
+                            <td>TOTAL <span style="padding-left: 60%;">{{ item.C + item.S + item.L }} ore/sapt</span></td>
                             <td>{{ item.C }}</td>
                             <td>{{ item.S }}</td>
                             <td>{{ item.L }}</td>

@@ -69,6 +69,7 @@
     <TypeScriptSourceRoot />
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="app\editMaterie\editMaterie.html" />
     <Content Include="app\navbar\navbar.html" />
     <Content Include="app\register\register.html" />
     <Content Include="app\edit\edit.html" />
@@ -157,6 +158,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="app\editMaterie\editMaterie.ts" />
     <TypeScriptCompile Include="app\navbar\navbar.ts" />
     <TypeScriptCompile Include="app\services\AuthService.ts" />
     <TypeScriptCompile Include="app\services\UserService.ts" />

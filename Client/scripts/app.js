@@ -7,6 +7,19 @@ var app;
 /// <reference path="../config/config.ts" />
 var app;
 (function (app) {
+    var EditMaterie = /** @class */ (function () {
+        function EditMaterie($routeParams) {
+            this.$routeParams = $routeParams;
+            this.message = 'EditMaterie';
+            this.id = this.$routeParams.id;
+        }
+        return EditMaterie;
+    }());
+    angular.module(app.moduleName).controller('EditMaterie', EditMaterie);
+})(app || (app = {}));
+/// <reference path="../config/config.ts" />
+var app;
+(function (app) {
     var navbarController = /** @class */ (function () {
         function navbarController($http, $location, user) {
             this.$http = $http;
@@ -193,9 +206,10 @@ var app;
 var app;
 (function (app) {
     var Home = /** @class */ (function () {
-        function Home($http, $location) {
+        function Home($http, $location, user) {
             this.$http = $http;
             this.$location = $location;
+            this.user = user;
             this.getData();
         }
         Home.prototype.getData = function () {
@@ -207,6 +221,9 @@ var app;
             }, function (err) {
                 console.log(err);
             });
+        };
+        Home.prototype.editMaterie = function (p) {
+            this.$location.path('/editMaterie').search({ id: p });
         };
         return Home;
     }());
@@ -282,6 +299,14 @@ var app;
                     controller: "Edit", controllerAs: "vm",
                     templateUrl: 'app/edit/edit.html',
                     title: 'Edit',
+                    requireLogin: true
+                }
+            }, {
+                url: '/editMaterie',
+                config: {
+                    controller: "EditMaterie", controllerAs: "vm",
+                    templateUrl: 'app/editMaterie/editMaterie.html',
+                    title: 'Editeaza Materie',
                     requireLogin: true
                 }
             }

@@ -2,9 +2,11 @@
 
 module app {
     class Home {
-        constructor(private $http: ng.IHttpService, private $location: ng.ILocationService) {
+        constructor(private $http: ng.IHttpService, private $location: ng.ILocationService, private user: UserService) {
             this.getData();
         }
+
+        data;
 
         getData() {
             this.$http.get('/home')
@@ -16,7 +18,9 @@ module app {
                 });
         }
 
-        data;// = 'Salut';
+        editMaterie(p) {
+            this.$location.path('/editMaterie').search({ id: p });
+        }
 
     }
 

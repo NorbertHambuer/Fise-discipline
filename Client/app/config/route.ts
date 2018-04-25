@@ -74,6 +74,14 @@ module app {
                     title: 'Edit',
                     requireLogin: true
                 }
+            }, {
+                url: '/editMaterie',
+                config: {
+                    controller: "EditMaterie", controllerAs: "vm",
+                    templateUrl: 'app/editMaterie/editMaterie.html',
+                    title: 'Editeaza Materie',
+                    requireLogin: true
+                }
             }
         ];
     }
