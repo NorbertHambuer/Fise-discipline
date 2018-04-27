@@ -7,7 +7,20 @@ module.exports = {
     register: register,
     home: home,
     verifyToken: verifyToken,
-    newSeries: newSeries
+    newSeries: newSeries,
+    getLastSerie,
+    getLastSerieMaterii
+}
+
+async function getLastSerieMaterii(ctx) {
+    let data = {};
+    data.serie = await serii.find({}).sort({ an_start: 'desc' }).limit(1);
+    data.materii = await materii.find({ 'id_serie': data.serie._id });
+    ctx.body = data;
+}
+
+async function getLastSerie(ctx) {
+    ctx.body = await serii.find({}).sort({ an_start: 'desc' }).limit(1);
 }
 
 async function login(ctx) {

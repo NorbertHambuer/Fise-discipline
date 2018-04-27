@@ -66,9 +66,12 @@ serii.find({}, function (err, seriiData) {
 });
 
 route.get('/home', routes.home);
+route.get('/getLastSerie', routes.getLastSerie);
+route.get('/getLastSerieMaterii', routes.getLastSerieMaterii);
 route.post('/login', body, routes.login);
 route.post('/register', body, routes.register);
 route.post('/newSeries', body, routes.newSeries);
+
 
 
 app.use(serve('../client'));

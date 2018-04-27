@@ -8,10 +8,17 @@ var app;
 var app;
 (function (app) {
     var EditMaterie = /** @class */ (function () {
-        function EditMaterie($routeParams) {
+        function EditMaterie($http, $routeParams) {
+            this.$http = $http;
             this.$routeParams = $routeParams;
             this.message = 'EditMaterie';
             this.id = this.$routeParams.id;
+            this.$http.get('/getLastSerieMaterii')
+                .then(function (data) {
+                console.log(data);
+            }, function (err) {
+                console.log(err);
+            });
         }
         return EditMaterie;
     }());
