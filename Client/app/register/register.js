@@ -2,16 +2,18 @@
 var app;
 (function (app) {
     var Register = /** @class */ (function () {
-        function Register($http, $location) {
-            this.$http = $http;
+        function Register($location, user) {
             this.$location = $location;
+            this.user = user;
         }
         Register.prototype.register = function () {
-            if (this.user.email && this.user.password && this.user.email) {
-            }
-            else {
-                alert('Completati toate campurile!');
-            }
+            var _this = this;
+            this.user.register(this.username, this.password, this.fName, this.lName, this.email)
+                .then(function (data) {
+                _this.$location.path('/home');
+            }, function (err) {
+                console.log(err);
+            });
         };
         Register.prototype.cancel = function () {
             this.$location.path('/home');

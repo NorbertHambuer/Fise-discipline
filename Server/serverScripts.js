@@ -9,13 +9,15 @@ module.exports = {
     verifyToken: verifyToken,
     newSeries: newSeries,
     getLastSerie,
-    getLastSerieMaterii
+    getLastSerieMaterii,
+    getSerii,
+    getMateriiSerieId
 }
 
 async function getLastSerieMaterii(ctx) {
     let data = {};
-    data.serie = await serii.find({}).sort({ an_start: 'desc' }).limit(1);
-    data.materii = await materii.find({ 'id_serie': data.serie._id });
+    data.serie = await serii.findOne({}).sort({ an_start: 'desc' });    
+    data.materii = await materii.find({ id_serie: data.serie._id });
     ctx.body = data;
 }
 
@@ -23,8 +25,18 @@ async function getLastSerie(ctx) {
     ctx.body = await serii.find({}).sort({ an_start: 'desc' }).limit(1);
 }
 
+async function getMateriiSerieId(ctx) {
+    let data = {};
+    data.materii = await materii.find({ id_serie: ctx.query.id_serie });
+    ctx.body = data;
+}
+
+async function getSerii(ctx) {
+    ctx.body = await serii.find({}).sort({an_start : 'desc'});
+}
+
 async function login(ctx) {
-    getMateriiDb("1");
+    getMateriiDb("1");    
     const user = {
         username: ctx.request.body.username,
         password: ctx.request.body.password

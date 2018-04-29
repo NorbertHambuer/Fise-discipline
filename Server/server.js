@@ -68,6 +68,8 @@ serii.find({}, function (err, seriiData) {
 route.get('/home', routes.home);
 route.get('/getLastSerie', routes.getLastSerie);
 route.get('/getLastSerieMaterii', routes.getLastSerieMaterii);
+route.get('/getSerii', routes.getSerii);
+route.get('/getMateriiSerieId', routes.getMateriiSerieId);
 route.post('/login', body, routes.login);
 route.post('/register', body, routes.register);
 route.post('/newSeries', body, routes.newSeries);
