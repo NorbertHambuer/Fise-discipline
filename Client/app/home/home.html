@@ -31,7 +31,7 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="el in item.data">
-                            <td ng-show="vm.user.identity.isAuthenticated"><i class="fa fa-fw fa-edit" ng-click="vm.editMaterie(el.ord)"></i></td>
+                            <td ng-show="vm.user.identity.isAuthenticated"><i class="fa fa-fw fa-edit" ng-click="vm.editMaterie(el._id)"></i></td>
                             <td>{{ el.ord }}</td>
                             <td>{{ el.disciplina }}</td>
                             <td>{{ el.C }}</td>
@@ -58,6 +58,3 @@
         </div>
     </div>
 </section>
-<!-- <select class="form-control" id="serieSelect" ng-model="vm.serii" ng-change="vm.getMateriiSerie(1)">
-                <option ng-repeat="serie in vm.serii" id="{{serie._id}}" ng-selected="vm.serii._id == 1" >{{serie.an_start}} - {{serie.an_stop}}</option>
-            </select>-->

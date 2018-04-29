@@ -15,19 +15,11 @@ const dbMongoose = mongoose.connection;
 dbMongoose.once("open", function () {
     mongoose.model('Serii', new mongoose.Schema({ _id: Number, specializare: String, an_start: Number, an_stop: Number }), "serii");
     mongoose.model('Utilizatori', new mongoose.Schema({ username: String, pass: String, nume: String, prenume: String, email: String }), "utilizatori");
-    mongoose.model('Materii', new mongoose.Schema({ _id: Number, ord: String, disciplina: String, C: String, S: String, L: String, P: String, CR: String, evaluare: String, an: Number, sem: Number, id_serie: Number }), "materii");
+    mongoose.model('Materii', new mongoose.Schema({ _id: Number, ord: String, disciplina: String, C: String, S: String, L: String, P: String, CR: String, Evaluare: String, an: Number, sem: Number, id_serie: Number }), "materii");
 
     global.serii = dbMongoose.model("Serii");
     global.utilizatori = dbMongoose.model("Utilizatori");
     global.materii = dbMongoose.model("Materii");
-
-    /*
-serii.find({}, function (err, seriiData) {
-    seriiData.forEach(function (serie) {
-        console.log(serie);
-    });
-});*/
-
 
     //Import date cti.ubm.ro
     /*

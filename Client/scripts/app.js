@@ -35,6 +35,40 @@ var app;
                 console.log(err);
             });
         };
+        Add.prototype.getDataLastSerie = function () {
+            var _this = this;
+            this.$http.get('/getLastSerieMaterii')
+                .then(function (data) {
+                _this.dataLastSerie = _this.formatMateriiDb(data);
+            }, function (err) {
+                console.log(err);
+            });
+        };
+        Add.prototype.formatMateriiDb = function (dataDb) {
+            var data = {};
+            data.info = dataDb.data;
+            console.log(data);
+            var materiiData = {};
+            data.info.materii.forEach(function (element) {
+                var propName = element.an + "s" + element.sem;
+                if (!materiiData[propName]) {
+                    materiiData[propName] = {};
+                    materiiData[propName].data = [];
+                    materiiData[propName].C = 0;
+                    materiiData[propName].CR = 0;
+                    materiiData[propName].L = 0;
+                    materiiData[propName].P = 0;
+                    materiiData[propName].S = 0;
+                }
+                materiiData[propName].C += parseInt(element.C) || 0;
+                materiiData[propName].CR += parseInt(element.CR) || 0;
+                materiiData[propName].L += parseInt(element.L) || 0;
+                materiiData[propName].P += parseInt(element.p) || 0;
+                materiiData[propName].S += parseInt(element.S) || 0;
+                materiiData[propName].data.push(element);
+            });
+            return materiiData;
+        };
         return Add;
     }());
     angular.module(app.moduleName).controller('Add', Add);
@@ -143,7 +177,6 @@ var app;
             this.$routeParams = $routeParams;
             this.message = 'EditMaterie';
             this.id = this.$routeParams.id;
-            console.log("test1");
             this.$http.get('/getLastSerieMaterii')
                 .then(function (data) {
                 console.log(data);
