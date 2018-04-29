@@ -16,6 +16,7 @@ var app;
             this.semSelectat = this.sem[0];
             this.numeSerie = '';
             this.materii = [];
+            this.getDataLastSerie();
         }
         Add.prototype.adMat = function (id) {
             this.materii.push({ an: this.anSelectat, semestru: this.semSelectat });

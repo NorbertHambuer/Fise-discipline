@@ -3,7 +3,7 @@
 module app {
     class Add {
         constructor(private $http: ng.IHttpService) {
-
+            this.getDataLastSerie();
         }
 
         an = [1, 2, 3, 4];
