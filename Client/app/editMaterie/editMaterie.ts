@@ -5,6 +5,7 @@ module app {
         constructor(private $http: ng.IHttpService, private $routeParams) {
             this.id = this.$routeParams.id;
 
+            console.log("test1");
             this.$http.get('/getLastSerieMaterii')
                 .then(data => {
                     console.log(data);
