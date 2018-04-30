@@ -60,11 +60,13 @@ var app;
                     materiiData[propName].L = 0;
                     materiiData[propName].P = 0;
                     materiiData[propName].S = 0;
+                    materiiData[propName].PR = 0;
                 }
                 materiiData[propName].C += parseInt(element.C) || 0;
                 materiiData[propName].CR += parseInt(element.CR) || 0;
                 materiiData[propName].L += parseInt(element.L) || 0;
-                materiiData[propName].P += parseInt(element.p) || 0;
+                materiiData[propName].P += parseInt(element.P) || 0;
+                materiiData[propName].PR += parseInt(element.PR) || 0;
                 materiiData[propName].S += parseInt(element.S) || 0;
                 materiiData[propName].data.push(element);
             });
@@ -174,17 +176,32 @@ var app;
 (function (app) {
     var EditMaterie = /** @class */ (function () {
         function EditMaterie($http, $routeParams) {
+            var _this = this;
             this.$http = $http;
             this.$routeParams = $routeParams;
             this.message = 'EditMaterie';
             this.id = this.$routeParams.id;
-            this.$http.get('/getLastSerieMaterii')
+            this.$http.get('/getDetaliiMaterie', {
+                params: { id_materie: this.id }
+            })
+                .then(function (data) {
+                var dataReq = {};
+                dataReq.info = data;
+                _this.materie = dataReq.info.data.materie;
+                _this.detalii = dataReq.info.data.detalii_materie ? dataReq.info.data.detalii_materie : {};
+                console.log(_this.materie);
+            }, function (err) {
+                console.log(err);
+            });
+        }
+        EditMaterie.prototype.save = function () {
+            this.$http.post('/editMaterie', { materie: this.materie, detalii_materie: this.detalii })
                 .then(function (data) {
                 console.log(data);
             }, function (err) {
                 console.log(err);
             });
-        }
+        };
         return EditMaterie;
     }());
     angular.module(app.moduleName).controller('EditMaterie', EditMaterie);
@@ -248,12 +265,14 @@ var app;
                     materiiData[propName].CR = 0;
                     materiiData[propName].L = 0;
                     materiiData[propName].P = 0;
+                    materiiData[propName].PR = 0;
                     materiiData[propName].S = 0;
                 }
                 materiiData[propName].C += parseInt(element.C) || 0;
                 materiiData[propName].CR += parseInt(element.CR) || 0;
                 materiiData[propName].L += parseInt(element.L) || 0;
                 materiiData[propName].P += parseInt(element.p) || 0;
+                materiiData[propName].PR += parseInt(element.PR) || 0;
                 materiiData[propName].S += parseInt(element.S) || 0;
                 materiiData[propName].data.push(element);
             });

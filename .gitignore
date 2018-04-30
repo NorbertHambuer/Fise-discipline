@@ -260,3 +260,7 @@ paket-files/
 __pycache__/
 *.pyc
 /Utils.txt
+/Server/template.html
+/Server/plan.pdf
+/Server/businesscard2.pdf
+/Server/businesscard.pdf

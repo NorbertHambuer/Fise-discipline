@@ -60,12 +60,14 @@ module app {
                     materiiData[propName].CR = 0;
                     materiiData[propName].L = 0;
                     materiiData[propName].P = 0;
+                    materiiData[propName].PR = 0;
                     materiiData[propName].S = 0;
                 }
                 materiiData[propName].C += parseInt(element.C) || 0;
                 materiiData[propName].CR += parseInt(element.CR) || 0;
                 materiiData[propName].L += parseInt(element.L) || 0;
                 materiiData[propName].P += parseInt(element.p) || 0;
+                materiiData[propName].PR += parseInt(element.PR) || 0;
                 materiiData[propName].S += parseInt(element.S) || 0;
                 materiiData[propName].data.push(element);
             });
