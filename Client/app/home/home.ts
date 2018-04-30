@@ -35,6 +35,16 @@ module app {
             this.$location.path('/editMaterie').search({ id: p });
         }
 
+        listareFisa(id) {
+            console.log("here1");            
+            this.$http.post('/fisaDisciplina', { id_materie: id })
+                .then(data => {
+                    console.log(data);
+                }, err => {
+                    console.log(err);
+                });
+        }
+
         getMateriiSerie() {
             this.$http.get('/getMateriiSerieId', {
                 params: { id_serie: this.serieSelectata }

@@ -240,6 +240,15 @@ var app;
         Home.prototype.editMaterie = function (p) {
             this.$location.path('/editMaterie').search({ id: p });
         };
+        Home.prototype.listareFisa = function (id) {
+            console.log("here1");
+            this.$http.post('/fisaDisciplina', { id_materie: id })
+                .then(function (data) {
+                console.log(data);
+            }, function (err) {
+                console.log(err);
+            });
+        };
         Home.prototype.getMateriiSerie = function () {
             var _this = this;
             this.$http.get('/getMateriiSerieId', {

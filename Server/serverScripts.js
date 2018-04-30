@@ -14,7 +14,12 @@ module.exports = {
     getMateriiSerieId,
     getDetaliiMaterie,
     editMaterie,    
+    listareFisaDisciplina,
 }
+
+const fs = require('fs');
+const pdf = require('html-pdf');
+const http = require('http');
 
 async function home() { }
 
@@ -39,8 +44,7 @@ async function getSerii(ctx) {
     ctx.body = await serii.find({}).sort({an_start : 'desc'});
 }
 
-async function getDetaliiMaterie(ctx) {
-    console.log(ctx.query.id_materie);
+async function getDetaliiMaterie(ctx) {    
     let data = {};
     data.materie = await materii.findOne({_id : ctx.query.id_materie});
     data.detalii_materie = await detalii_materii.findOne({id_materie: ctx.query.id_materie});
@@ -253,4 +257,47 @@ async function getNextIdDetaliiMaterie() {
 async function getNextIdMaterii() {
     let lastMaterie = await materii.findOne({}).sort({ _id: 'desc' });
     return lastMaterie._id+1;
+}
+
+async function listareFisaDisciplina(ctx) {
+    let materie = await materii.findOne({ _id: ctx.request.body.id_materie });
+    let detalii_materie = await detalii_materii.findOne({ id_materie: ctx.request.body.id_materie });
+    let pdfContent = fs.readFileSync('template_materie.html');
+    let options = { format: 'Letter', "orientation": "portrait" };
+    let total_studiu_ind = detalii_materie.ore_studiu + detalii_materie.ore_documentatie + detalii_materie.ore_pregatire + detalii_materie.ore_tutoriat + detalii_materie.ore_examinari + detalii_materie.ore_activitati;
+    pdfContent = pdfContent.toString();
+    pdfContent = pdfContent
+        .replace('@ord', materie.ord)
+        .replace('@denumire', materie.disciplina)
+        .replace('@responsabil', detalii_materie.responsabil)
+        .replace('@titular', detalii_materie.titular)
+        .replace('@an', materie.an)
+        .replace('@sem', materie.sem)
+        .replace('@evaluare', materie.Evaluare)
+        .replace('@regim', detalii_materie.regim)
+        .replace('@totalOreSapt', detalii_materie.ore_curs + detalii_materie.ore_laborator)
+        .replace('@oreCurs', detalii_materie.ore_curs)
+        .replace('@oreLaborator', detalii_materie.ore_laborator)
+        .replace('@totalOrePlan', detalii_materie.total_ore_curs + detalii_materie.total_ore_laborator)
+        .replace('@totalOreCurs', detalii_materie.total_ore_curs)
+        .replace('@totalOreLaborator', detalii_materie.total_ore_laborator)
+        .replace('@oreStudiu', detalii_materie.ore_studiu)
+        .replace('@oreDocumentatie', detalii_materie.ore_documentatie)
+        .replace('@orePregatire', detalii_materie.ore_pregatire)
+        .replace('@oreTutoriat', detalii_materie.ore_tutoriat)
+        .replace('@oreExaminari', detalii_materie.ore_examinari)
+        .replace('@oreActivitati', detalii_materie.ore_activitati)
+        .replace('@totalOreStudiu', total_studiu_ind)
+        .replace('@totalOreSemestru', total_studiu_ind + detalii_materie.total_ore_curs + detalii_materie.total_ore_laborator)
+        .replace('@nrCredite', materie.CR);
+
+    await pdf.create(pdfContent, options).toFile('./fisaDisciplina.pdf', function (err, res) {
+        if (err) return console.log(err);
+        console.log(res); // { filename: '/app/businesscard.pdf' }
+
+    });
+
+    ctx.body = fs.createReadStream('./fisaDisciplina.pdf');
+    ctx.set('Content-disposition', 'attachment; filename=' + 'fisaDisciplina');
+    ctx.set('Content-type', 'application/pdf');
 }

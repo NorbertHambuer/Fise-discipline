@@ -6,18 +6,13 @@ const route = require('koa-router')();
 const body = require('koa-body')();
 const mongo = require('mongodb');
 const routes = require('./serverScripts.js');
-const pdf = require('html-pdf');
 const fs = require('fs');
 const html = fs.readFileSync('template.html', 'utf8');
-const options = { format: 'Letter', "orientation": "portrait" };
 const app = new koa();
 const url = "mongodb://localhost:27017/fise_discipline";
 const mongoose = require('mongoose');
-mongoose.connect(url);/*
-pdf.create(html, options).toFile('./plan.pdf', function (err, res) {
-    if (err) return console.log(err);
-    console.log(res); // { filename: '/app/businesscard.pdf' }
-});*/
+mongoose.connect(url);
+
 const dbMongoose = mongoose.connection;
 dbMongoose.once("open", function () {
     mongoose.model('Serii', new mongoose.Schema({ _id: Number, specializare: String, an_start: Number, an_stop: Number }), "serii");
@@ -82,6 +77,7 @@ route.post('/login', body, routes.login);
 route.post('/register', body, routes.register);
 route.post('/newSeries', body, routes.newSeries);
 route.post('/editMaterie', body, routes.editMaterie);
+route.post('/fisaDisciplina', body, routes.listareFisaDisciplina);
 
 
 

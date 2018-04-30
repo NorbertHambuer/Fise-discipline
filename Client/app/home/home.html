@@ -19,6 +19,7 @@
                     <thead>
                         <tr>
                             <td ng-show="vm.user.identity.isAuthenticated"></td>
+                            <td ng-show="vm.user.identity.isAuthenticated"></td>
                             <th>Ord</th>
                             <th>Disciplina</th>
                             <th>C</th>
@@ -32,6 +33,7 @@
                     <tbody>
                         <tr ng-repeat="el in item.data">
                             <td ng-show="vm.user.identity.isAuthenticated"><i class="fa fa-fw fa-edit" ng-click="vm.editMaterie(el._id)"></i></td>
+                            <td ng-show="vm.user.identity.isAuthenticated"><i class="fa fa-file-pdf-o" ng-click="vm.listareFisa(el._id)"></i></td>
                             <td>{{ el.ord }}</td>
                             <td>{{ el.disciplina }}</td>
                             <td>{{ el.C }}</td>
@@ -42,6 +44,7 @@
                             <td>{{ el.Evaluare }}</td>
                         </tr>
                         <tr>
+                            <td> </td>
                             <td>  </td>
                             <td> - </td>
                             <td>TOTAL <span style="padding-left: 60%;">{{ item.C + item.S + item.L }} ore/sapt</span></td>
