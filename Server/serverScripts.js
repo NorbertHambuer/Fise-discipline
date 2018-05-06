@@ -15,6 +15,7 @@ module.exports = {
     getDetaliiMaterie,
     editMaterie,    
     listareFisaDisciplina,
+    listarePlanInvatamant
 }
 
 const fs = require('fs');
@@ -176,7 +177,8 @@ async function saveDetaliidetalii(detalii) {
             id_materie: detalii.id_materie,
             responsabil: detalii.responsabil,
             titular: detalii.titular,
-            regim: detalii.regim,
+            cat: detalii.cat,
+            tip: detalii.tip,
             ore_curs: detalii.ore_curs,
             ore_laborator: detalii.ore_laborator,
             total_ore_curs: detalii.total_ore_curs,
@@ -274,7 +276,7 @@ async function listareFisaDisciplina(ctx) {
         .replace('@an', materie.an)
         .replace('@sem', materie.sem)
         .replace('@evaluare', materie.Evaluare)
-        .replace('@regim', detalii_materie.regim)
+        .replace('@regim', detalii_materie.cat + '\\' + detalii_materie.tip)
         .replace('@totalOreSapt', detalii_materie.ore_curs + detalii_materie.ore_laborator)
         .replace('@oreCurs', detalii_materie.ore_curs)
         .replace('@oreLaborator', detalii_materie.ore_laborator)
@@ -296,8 +298,216 @@ async function listareFisaDisciplina(ctx) {
         console.log(res); // { filename: '/app/businesscard.pdf' }
 
     });
+    ctx.body = pdfContent;
+   // ctx.body = fs.createReadStream('./fisaDisciplina.pdf');
+  //  ctx.set('Content-disposition', 'attachment; filename=' + 'fisaDisciplina');
+    //ctx.set('Content-type', 'application/pdf');
+}
 
-    ctx.body = fs.createReadStream('./fisaDisciplina.pdf');
-    ctx.set('Content-disposition', 'attachment; filename=' + 'fisaDisciplina');
-    ctx.set('Content-type', 'application/pdf');
+async function listarePlanInvatamant(ctx) {
+    let id_serie = ctx.request.body.id_serie;    
+    let serie = await serii.findOne({ _id: id_serie });
+    let materiiSerie = await materii.find({ _id: id_serie });
+
+    console.log(id_serie);
+
+    let materiiDB = await materii.aggregate([
+        {
+            $lookup:
+                {
+                    from: "detalii_materii",
+                    localField: "_id",
+                    foreignField: "id_materie",
+                    as: "detalii"
+                }
+        }
+    ]);
+    let detaliiMaterii = [];
+    materiiDB.forEach(function (element) {        
+        if (element.id_serie == id_serie) {            
+            detaliiMaterii.push(element);
+        }
+    });
+
+
+    detaliiMaterii.sort(function (a, b) {
+        if (a.ord < b.ord)
+            return -1;
+        if (a.ord > b.ord)
+            return 1;
+        return 0;
+    });
+
+    let anCurent = 0;
+    let semCurent = 0;
+    let pdfContent = fs.readFileSync('template.html');
+    let options = { format: 'Letter', "orientation": "portrait" };
+    let tableTop = "";
+    let tableBottom = "";
+    let tableRow = "";
+    let tables = "";
+    let evaluare_1 = "", evaluare_2 = "", evaluare_3 = "";
+    let total_ore_ind = 0, total_ore_sem = 0;
+
+    let c_1 = 0, c_2 = 0, s_1 = 0, s_2 = 0, l_1 = 0, l_2 = 0, p_1 = 0, p_2 = 0, pr_1 = 0, pr_2 = 0, total_an = 0, total_an_c = 0, total_an_apl = 0, total_an_ind = 0, total_cr_1 = 0, total_cr_2 = 0, total_ore_an_1 = 0, total_ore_an_2 = 0;
+
+    pdfContent = pdfContent.toString();   
+
+    detaliiMaterii.forEach(function (materie) {
+        if (materie.an != anCurent) {
+            if (anCurent != 0) {
+                total_ore_an_1 = c_1 + s_1 + l_1 + p_1 + pr_1;
+                total_ore_an_2 = c_2 + s_2 + l_2 + p_2 + pr_2;
+                tableBottom = fs.readFileSync('table_bottom.html').toString();
+                tableBottom = tableBottom
+                    .replace('@c_1', c_1)
+                    .replace('@s_1', s_1)
+                    .replace('@l_1', l_1)
+                    .replace('@p_1', p_1)
+                    .replace('@pr_1', pr_1)
+                    .replace('@c_2', c_2)
+                    .replace('@s_2', s_2)
+                    .replace('@l_2', l_2)
+                    .replace('@p_2', p_2)
+                    .replace('@pr_2', pr_2)
+                    .replace('@total_an', total_an)
+                    .replace('@total_an_c', total_an_c)
+                    .replace('@total_an_apl', total_an_apl)
+                    .replace('@total_an_ind', total_an_ind)
+                    .replace('@total_cr_1', total_cr_1)
+                    .replace('@total_cr_2', total_cr_2)
+                    .replace('@total_ore_an_1', total_ore_an_1)
+                    .replace('@total_ore_an_2', total_ore_an_2);
+                tables = tables + tableBottom;
+                c_1 = 0; c_2 = 0; s_1 = 0; s_2 = 0; l_1 = 0; l_2 = 0; p_1 = 0; p_2 = 0; pr_1 = 0; pr_2 = 0; total_an = 0; total_an_c = 0; total_an_apl = 0; total_an_ind = 0; total_cr_1 = 0; total_cr_2 = 0; total_ore_an_1 = 0; total_ore_an_2 = 0;
+            }
+            anCurent = materie.an;
+            //semCurent = element.sem;
+            
+            tableTop = fs.readFileSync('table_top.html').toString();
+            tableTop = tableTop
+                .replace('@an', anCurent)
+                .replace('@a_universitar', serie.an_start + " - " + serie.an_stop);
+            
+            tables = tables + tableTop;// + tableBottom;
+        }
+
+        let detaliiMaterieCurenta = materie.detalii[0];
+        total_ore_ind = 0;
+        total_ore_sem = 0;
+
+        if (detaliiMaterieCurenta) {
+            total_ore_ind = detaliiMaterieCurenta.ore_studiu + detaliiMaterieCurenta.ore_documentatie + detaliiMaterieCurenta.ore_pregatire + detaliiMaterieCurenta.ore_tutoriat + detaliiMaterieCurenta.ore_examinari + detaliiMaterieCurenta.ore_activitati;
+            total_ore_sem = total_ore_ind + detaliiMaterieCurenta.total_ore_curs + detaliiMaterieCurenta.total_ore_laborator;
+        }
+
+        if (materie.sem == 1) {
+            tableRow = fs.readFileSync('table_mid_left.html').toString();
+            c_1 += materie.C;
+            s_1 += materie.S;
+            l_1 += materie.L;
+            p_1 += materie.P;
+            pr_1 += materie.PR;
+            total_cr_1 += materie.CR;
+        }
+        else {
+            tableRow = fs.readFileSync('table_mid_right.html').toString();
+            c_2 += materie.C;
+            s_2 += materie.S;
+            l_2 += materie.L;
+            p_2 += materie.P;
+            pr_2 += materie.PR;
+            total_cr_2 += materie.CR;
+        }
+
+        evaluare_1 = materie.Evaluare == "E" ? "E" : "";
+        evaluare_2 = materie.Evaluare == "C" ? "C" : "";
+        evaluare_3 = materie.Evaluare == "V" ? "V" : "";
+
+        tableRow = tableRow
+            .replace('@denumire', materie.disciplina)
+            .replace('@C', materie.C)
+            .replace('@S', materie.S)
+            .replace('@L', materie.L)
+            .replace('@P', materie.P)
+            .replace('@PR', materie.PR)
+            .replace('@evaluare_1', evaluare_1)
+            .replace('@evaluare_2', evaluare_2)
+            .replace('@evaluare_3', evaluare_3)
+            .replace('@ore_total', total_ore_sem)
+            .replace('@ore_curs', (detaliiMaterieCurenta && detaliiMaterieCurenta.total_ore_curs ? detaliiMaterieCurenta.total_ore_curs : 0))
+            .replace('@ore_apl', (detaliiMaterieCurenta && detaliiMaterieCurenta.total_ore_laborator ? detaliiMaterieCurenta.total_ore_laborator : 0))
+            .replace('@cat', (detaliiMaterieCurenta && detaliiMaterieCurenta.cat ? detaliiMaterieCurenta.cat : ""))
+            .replace('@tip', (detaliiMaterieCurenta && detaliiMaterieCurenta.tip ? detaliiMaterieCurenta.tip : ""))
+            .replace('@ore_ind', total_ore_ind)
+            .replace('@CR', materie.CR);
+
+        
+        total_an += total_ore_sem;
+        total_an_c += (detaliiMaterieCurenta && detaliiMaterieCurenta.total_ore_curs ? detaliiMaterieCurenta.total_ore_curs : 0);
+        total_an_apl += (detaliiMaterieCurenta && detaliiMaterieCurenta.total_ore_laborator ? detaliiMaterieCurenta.total_ore_laborator : 0);
+        total_an_ind += total_ore_ind;
+        tables = tables + tableRow;
+    });
+    total_ore_an_1 = c_1 + s_1 + l_1 + p_1 + pr_1;
+    total_ore_an_2 = c_2 + s_2 + l_2 + p_2 + pr_2;
+    tableBottom = fs.readFileSync('table_bottom.html').toString();
+    tableBottom = tableBottom
+        .replace('@c_1', c_1)
+        .replace('@s_1', s_1)
+        .replace('@l_1', l_1)
+        .replace('@p_1', p_1)
+        .replace('@pr_1', pr_1)
+        .replace('@c_2', c_2)
+        .replace('@s_2', s_2)
+        .replace('@l_2', l_2)
+        .replace('@p_2', p_2)
+        .replace('@pr_2', pr_2)
+        .replace('@total_an', total_an)
+        .replace('@total_an_c', total_an_c)
+        .replace('@total_an_apl', total_an_apl)
+        .replace('@total_an_ind', total_an_ind)
+        .replace('@total_cr_1', total_cr_1)
+        .replace('@total_cr_2', total_cr_2)
+        .replace('@total_ore_an_1', total_ore_an_1)
+        .replace('@total_ore_an_2', total_ore_an_2);
+        
+    tables = tables + tableBottom;    
+    
+    pdfContent = pdfContent
+        .replace('@content', tables);
+                
+    await pdf.create(pdfContent, options).toFile('./planInvatamant.pdf', function (err, res) {
+        if (err) return console.log(err);
+        console.log(res); // { filename: '/app/businesscard.pdf' }
+
+    });
+
+    /*
+    let detaliiMaterii = await materii.aggregate([
+        {
+            $lookup:
+                {
+                    from: "detalii_materii",
+                    let: { id_serie: "$id_serie", id: "$_id" },
+                    pipeline: [
+                        {
+                            $match:
+                                {
+                                    $expr:
+                                        {
+                                            $and:
+                                                [
+                                                    { $eq: [5, "$$id_serie"] },
+                                                    { $eq: ["$id_materie", "$$id"] }
+                                                ]
+                                        }
+                                }
+                        }
+                    ],
+                    as: "detalii"
+                }
+        }
+    ])*/    
+    ctx.body = "Success!";
 }

@@ -241,8 +241,15 @@ var app;
             this.$location.path('/editMaterie').search({ id: p });
         };
         Home.prototype.listareFisa = function (id) {
-            console.log("here1");
             this.$http.post('/fisaDisciplina', { id_materie: id })
+                .then(function (data) {
+                console.log(data);
+            }, function (err) {
+                console.log(err);
+            });
+        };
+        Home.prototype.listarePlanInvatamant = function () {
+            this.$http.post('/planInvatamant', { id_serie: this.serieSelectata })
                 .then(function (data) {
                 console.log(data);
             }, function (err) {

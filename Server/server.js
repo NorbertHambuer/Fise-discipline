@@ -7,7 +7,6 @@ const body = require('koa-body')();
 const mongo = require('mongodb');
 const routes = require('./serverScripts.js');
 const fs = require('fs');
-const html = fs.readFileSync('template.html', 'utf8');
 const app = new koa();
 const url = "mongodb://localhost:27017/fise_discipline";
 const mongoose = require('mongoose');
@@ -18,12 +17,13 @@ dbMongoose.once("open", function () {
     mongoose.model('Serii', new mongoose.Schema({ _id: Number, specializare: String, an_start: Number, an_stop: Number }), "serii");
     mongoose.model('Utilizatori', new mongoose.Schema({ username: String, pass: String, nume: String, prenume: String, email: String }), "utilizatori");
     mongoose.model('Materii', new mongoose.Schema({ _id: Number, ord: String, disciplina: String, C: Number, S: Number, L: Number, P: Number, PR: Number, CR: Number, Evaluare: String, an: Number, sem: Number, id_serie: Number }), "materii");
-    mongoose.model('Detalii_Materii', new mongoose.Schema({ _id: Number, id_materie: Number, responsabil: String, titular: String, regim: String, ore_curs: Number, ore_laborator: Number, total_ore_curs:Number, total_ore_laborator:Number, ore_studiu: Number, ore_documentatie: Number, ore_pregatire:Number, ore_tutoriat:Number, ore_examinari: Number, ore_activitati: Number}), "detalii_materii");
+    mongoose.model('Detalii_Materii', new mongoose.Schema({ _id: Number, id_materie: Number, responsabil: String, titular: String, cat: String, tip: String, ore_curs: Number, ore_laborator: Number, total_ore_curs:Number, total_ore_laborator:Number, ore_studiu: Number, ore_documentatie: Number, ore_pregatire:Number, ore_tutoriat:Number, ore_examinari: Number, ore_activitati: Number}), "detalii_materii");
     global.serii = dbMongoose.model("Serii");
     global.utilizatori = dbMongoose.model("Utilizatori");
     global.materii = dbMongoose.model("Materii");
     global.detalii_materii = dbMongoose.model("Detalii_Materii");
 
+    //detalii_materii.remove({}, function () { console.log("here"); });
     //Import date cti.ubm.ro
     /*
     let an_start = 2016;
@@ -78,6 +78,7 @@ route.post('/register', body, routes.register);
 route.post('/newSeries', body, routes.newSeries);
 route.post('/editMaterie', body, routes.editMaterie);
 route.post('/fisaDisciplina', body, routes.listareFisaDisciplina);
+route.post('/planInvatamant', body, routes.listarePlanInvatamant);
 
 
 

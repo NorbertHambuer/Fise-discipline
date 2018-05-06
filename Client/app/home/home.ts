@@ -35,9 +35,17 @@ module app {
             this.$location.path('/editMaterie').search({ id: p });
         }
 
-        listareFisa(id) {
-            console.log("here1");            
+        listareFisa(id) {        
             this.$http.post('/fisaDisciplina', { id_materie: id })
+                .then(data => {
+                    console.log(data);
+                }, err => {
+                    console.log(err);
+                });
+        }
+
+        listarePlanInvatamant() {            
+            this.$http.post('/planInvatamant', { id_serie: this.serieSelectata })
                 .then(data => {
                     console.log(data);
                 }, err => {
