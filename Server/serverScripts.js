@@ -340,7 +340,7 @@ async function listarePlanInvatamant(ctx) {
 
     let anCurent = 0;
     let semCurent = 0;
-    let pdfContent = fs.readFileSync('template.html');
+    let pdfContent = fs.readFileSync('template_plan.html');
     let options = { format: 'Letter', "orientation": "portrait" };
     let tableTop = "";
     let tableBottom = "";
