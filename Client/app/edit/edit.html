@@ -1,3 +1,89 @@
 ﻿<section>
-    <h1>{{ vm.message }}</h1>
+    <div class="container">
+        
+        <div class="row" ng-repeat="item in vm.data">
+            <div class="col-md-12 mt-5">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3>Anul: {{item.data[0].an}}</h3>
+                    </div>
+                    <div>
+                        <h3>Semestru: {{item.data[0].sem}}</h3>
+                    </div>
+                </div>
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <td ng-show="vm.user.identity.isAuthenticated"></td>
+                            <td ng-show="vm.user.identity.isAuthenticated"></td>
+                            <th>Ord</th>
+                            <th>Disciplina</th>
+                            <th>C</th>
+                            <th>S</th>
+                            <th>L</th>
+                            <th>P</th>
+                            <th>CR</th>
+                            <th>Eval</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="el in item.data">
+                            <td ng-show="vm.user.identity.isAuthenticated"><i class="fa fa-fw fa-edit" ng-click="vm.editMaterie(el._id)"></i></td>
+                            <td ng-show="vm.user.identity.isAuthenticated"><i class="fa fa-trash-o" ng-click="vm.deleteMaterie(el,$index)"></i></td>
+                            <td>{{ el.ord }}</td>
+                            <td>{{ el.disciplina }}</td>
+                            <td>{{ el.C }}</td>
+                            <td>{{ el.S }}</td>
+                            <td>{{ el.L }}</td>
+                            <td>{{ el.P }}</td>
+                            <td>{{ el.CR }}</td>
+                            <td>{{ el.Evaluare }}</td>
+                        </tr>
+                        <tr>
+                            <td> </td>
+                            <td>  </td>
+                            <td> - </td>
+                            <td>TOTAL <span style="padding-left: 60%;">{{ item.C + item.S + item.L }} ore/sapt</span></td>
+                            <td>{{ item.C }}</td>
+                            <td>{{ item.S }}</td>
+                            <td>{{ item.L }}</td>
+                            <td>{{ item.P }}</td>
+                            <td>{{ item.CR }}</td>
+                            <td>-</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button id="openModalButton" class="btn btn-info" [hidden]="false" data-toggle="modal" data-target="#myModal" ng-click="vm.setAddMaterieMeta(item.data[0].an,item.data[0].sem)">Adauga Materie</button>
+            </div>
+        </div>
+    </div>
+    <div id="myModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    
+                        <input class="form-control col-sm" nume="denumire" id="denumire" type="text" placeholder="Denumire materie ..." ng-model="vm.materieNoua.disciplina" />
+           
+                        <input class="form-control" type="number" placeholder="C" ng-model="vm.materieNoua.C" />
+                 
+                        <input class="form-control" type="number" placeholder="S" ng-model="vm.materieNoua.S" />
+                    
+                        <input class="form-control" type="number" placeholder="L" ng-model="vm.materieNoua.L" />
+                 
+                        <input class="form-control" type="number" placeholder="P" ng-model="vm.materieNoua.P" />
+                    
+                        <input class="form-control" type="number" placeholder="PR" ng-model="vm.materieNoua.PR" />
+                   
+                        <input class="form-control" type="number" placeholder="CR" ng-model="vm.materieNoua.CR" />
+                    
+                        <input class="form-control" type="text" placeholder="Eval" ng-model="vm.materieNoua.Evaluare" />
+                   
+                        <input class="form-control" type="text" placeholder="Ord" ng-model="vm.materieNoua.ord" ng-change="vm.checkMaxOrd()"/>    
+                    
+                        <button class="btn btn-success" ng-click="vm.adaugareMaterieNoua()" data-toggle="modal" data-target="#myModal">Salveaza</button>                    
+                </div>
+            </div>
+        </div>
+    </div>
 </section>

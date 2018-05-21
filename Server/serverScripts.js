@@ -15,7 +15,9 @@ module.exports = {
     getDetaliiMaterie,
     editMaterie,    
     listareFisaDisciplina,
-    listarePlanInvatamant
+    listarePlanInvatamant,
+    deleteMaterie,
+    addMaterie
 }
 
 const fs = require('fs');
@@ -241,6 +243,13 @@ async function getSeriiArray() {
     return sr;
 }
 
+async function deleteMaterie(ctx) {
+    let idMaterie = ctx.request.body.idMaterie;    
+    await materii.remove({ "_id": idMaterie });
+
+    ctx.body = "Item deleted!";
+}
+
 async function getMateriiDb(ctx) {
     let data = [];
     let seriiData = await getSeriiArray();
@@ -259,6 +268,14 @@ async function getNextIdDetaliiMaterie() {
 async function getNextIdMaterii() {
     let lastMaterie = await materii.findOne({}).sort({ _id: 'desc' });
     return lastMaterie._id+1;
+}
+
+
+async function addMaterie(ctx) {
+    let materie = ctx.request.body.materie;
+    await saveMaterie(materie);    
+
+    ctx.body = "Item saved!";
 }
 
 async function listareFisaDisciplina(ctx) {

@@ -59,6 +59,7 @@ module app {
             })
                 .then(data => {                   
                     this.data = this.formatMateriiDb(data);
+                    localStorage.setItem("idSerieCurenta", this.serieSelectata);
                 }, err => {
                     console.log(err);
                 });

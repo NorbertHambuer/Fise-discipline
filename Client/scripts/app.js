@@ -164,9 +164,121 @@ var app;
 var app;
 (function (app) {
     var Edit = /** @class */ (function () {
-        function Edit() {
+        function Edit($http, $location, user) {
+            this.$http = $http;
+            this.$location = $location;
+            this.user = user;
             this.message = 'Edit';
+            this.metaAddMaterieAn = 0;
+            this.metaAddMaterieSem = 0;
+            this.maxOrd = "0.00";
+            this.serieSelectata = localStorage.getItem("idSerieCurenta");
+            this.getMateriiSerie();
+            this.materieNoua = {};
+            this.materieNoua.Evaluare = "";
+            this.materieNoua.ord = "";
+            this.materieNoua.disciplina = "";
+            this.materieNoua.C = 0;
+            this.materieNoua.CR = 0;
+            this.materieNoua.L = 0;
+            this.materieNoua.P = 0;
+            this.materieNoua.PR = 0;
+            this.materieNoua.S = 0;
+            this.materieNoua.an = 0;
+            this.materieNoua.sem = 0;
+            this.materieNoua.id_serie = parseInt(this.serieSelectata);
+            this.maxOrd = "0.00";
         }
+        Edit.prototype.getMateriiSerie = function () {
+            var _this = this;
+            this.$http.get('/getMateriiSerieId', {
+                params: { id_serie: this.serieSelectata }
+            })
+                .then(function (data) {
+                _this.data = _this.formatMateriiDb(data);
+                localStorage.setItem("idSerie", _this.serieSelectata);
+            }, function (err) {
+                console.log(err);
+            });
+        };
+        Edit.prototype.formatMateriiDb = function (dataDb) {
+            var data = {};
+            data.info = dataDb.data;
+            console.log(data);
+            var materiiData = {};
+            data.info.materii.forEach(function (element) {
+                var propName = element.an + "s" + element.sem;
+                if (!materiiData[propName]) {
+                    materiiData[propName] = {};
+                    materiiData[propName].data = [];
+                    materiiData[propName].C = 0;
+                    materiiData[propName].CR = 0;
+                    materiiData[propName].L = 0;
+                    materiiData[propName].P = 0;
+                    materiiData[propName].PR = 0;
+                    materiiData[propName].S = 0;
+                }
+                materiiData[propName].C += parseInt(element.C) || 0;
+                materiiData[propName].CR += parseInt(element.CR) || 0;
+                materiiData[propName].L += parseInt(element.L) || 0;
+                materiiData[propName].P += parseInt(element.p) || 0;
+                materiiData[propName].PR += parseInt(element.PR) || 0;
+                materiiData[propName].S += parseInt(element.S) || 0;
+                materiiData[propName].data.push(element);
+            });
+            return materiiData;
+        };
+        Edit.prototype.deleteMaterie = function (element, index) {
+            var _this = this;
+            if (confirm("Sigur doriti sa stergeti aceasta materie?"))
+                this.$http.post('/deleteMaterie', { idMaterie: element._id })
+                    .then(function (data) {
+                    var dataIndex = element.an + "s" + element.sem;
+                    _this.data[dataIndex].data.splice(index, 1);
+                    _this.data[dataIndex].C -= element.C;
+                    _this.data[dataIndex].CR -= element.CR;
+                    _this.data[dataIndex].L -= element.L;
+                    _this.data[dataIndex].P -= element.P;
+                    _this.data[dataIndex].PR -= element.PR;
+                    _this.data[dataIndex].S -= element.S;
+                }, function (err) {
+                    console.log(err);
+                });
+        };
+        Edit.prototype.setAddMaterieMeta = function (an, sem) {
+            var dataIndex = an + "s" + sem;
+            var maxOrd = this.maxOrd;
+            this.data[dataIndex].data.forEach(function (element) {
+                if (parseFloat(element.ord) > parseFloat(maxOrd)) {
+                    maxOrd = element.ord;
+                }
+            });
+            this.maxOrd = maxOrd;
+            this.materieNoua.an = an;
+            this.materieNoua.sem = sem;
+        };
+        Edit.prototype.adaugareMaterieNoua = function () {
+            var _this = this;
+            this.$http.post('/addMaterie', { materie: this.materieNoua })
+                .then(function (data) {
+                var dataIndex = _this.materieNoua.an + "s" + _this.materieNoua.sem;
+                _this.data[dataIndex].data.push(_this.materieNoua);
+                _this.data[dataIndex].C += _this.materieNoua.C;
+                _this.data[dataIndex].CR += _this.materieNoua.CR;
+                _this.data[dataIndex].L += _this.materieNoua.L;
+                _this.data[dataIndex].P += _this.materieNoua.P;
+                _this.data[dataIndex].PR += _this.materieNoua.PR;
+                _this.data[dataIndex].S = _this.materieNoua.S;
+            }, function (err) {
+                console.log(err);
+            });
+        };
+        Edit.prototype.checkMaxOrd = function () {
+            if (parseFloat(this.materieNoua.ord) > parseFloat(this.maxOrd)) {
+                alert("Ord trebuie sa fie mai mic!");
+                this.materieNoua.ord = "";
+            }
+        };
         return Edit;
     }());
     angular.module(app.moduleName).controller('Edit', Edit);
@@ -263,6 +375,7 @@ var app;
             })
                 .then(function (data) {
                 _this.data = _this.formatMateriiDb(data);
+                localStorage.setItem("idSerieCurenta", _this.serieSelectata);
             }, function (err) {
                 console.log(err);
             });
