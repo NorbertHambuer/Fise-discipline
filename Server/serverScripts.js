@@ -72,7 +72,8 @@ async function login(ctx) {
         password: ctx.request.body.password
     }
     let found = false;
-    utilizatori.find({ $and: [{ 'username': user.username }, { 'pass': user.password }] }, function (err, result) {
+    await utilizatori.find({ $and: [{ 'username': user.username }, { 'pass': user.password }] }, function (err, result) {
+        console.log(result);
         if (err)
             throw err;
         if (result.length != 0) {
@@ -82,6 +83,7 @@ async function login(ctx) {
     }).then(function () {
         console.log("here");
     });
+    
     let promise = new Promise((res, rej) => {
         jwt.sign({ user }, 'secretkey', { expiresIn: '1d' }, (err, token) => {
             if (err) {
