@@ -120,10 +120,10 @@ route.post('/fisaDisciplina', body, routes.listareFisaDisciplina);
 route.post('/planInvatamant', body, routes.listarePlanInvatamant);
 
 /*RESTful API */
-route.put('/editMaterie', body, routes.editMaterie);
-route.delete('/deleteMaterie', body, routes.deleteMaterie);
-route.post('/addMaterie', body, routes.addMaterie);
-route.get('/getMaterie', routes.getMaterieId);
+route.put('/materie', body, routes.editMaterie);
+route.delete('/materie', body, routes.deleteMaterie);
+route.post('/materie', body, routes.addMaterie);
+route.get('/materie', routes.getMaterieId);
 
 
 app.use(serve('../client'));
