@@ -74,7 +74,7 @@ module app {
 
         deleteMaterie(element, index) {
             if(confirm("Sigur doriti sa stergeti aceasta materie?"))            
-            this.$http.post('/deleteMaterie', { idMaterie: element._id, idSerie: element.id_serie, ord: element.ord })
+                this.$http.delete('/deleteMaterie', { params: { idMaterie: element._id, idSerie: element.id_serie, ord: element.ord } })
                 .then(data => {
 
                     let dataIndex = element.an + "s" + element.sem;

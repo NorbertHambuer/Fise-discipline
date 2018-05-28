@@ -28,7 +28,7 @@ var app;
             });
         }
         EditMaterie.prototype.save = function () {
-            this.$http.post('/editMaterie', { materie: this.materie, detalii_materie: this.detalii })
+            this.$http.put('/editMaterie', { materie: this.materie, detalii_materie: this.detalii })
                 .then(function (data) {
                 console.log(data);
             }, function (err) {
@@ -250,7 +250,7 @@ var app;
         Edit.prototype.deleteMaterie = function (element, index) {
             var _this = this;
             if (confirm("Sigur doriti sa stergeti aceasta materie?"))
-                this.$http.post('/deleteMaterie', { idMaterie: element._id, idSerie: element.id_serie, ord: element.ord })
+                this.$http.delete('/deleteMaterie', { params: { idMaterie: element._id, idSerie: element.id_serie, ord: element.ord } })
                     .then(function (data) {
                     var dataIndex = element.an + "s" + element.sem;
                     _this.data[dataIndex].data.splice(index, 1);

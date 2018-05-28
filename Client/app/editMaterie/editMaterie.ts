@@ -26,7 +26,7 @@ module app {
         message = 'EditMaterie';
 
         save() {
-            this.$http.post('/editMaterie', { materie: this.materie, detalii_materie: this.detalii })
+            this.$http.put('/editMaterie', { materie: this.materie, detalii_materie: this.detalii })
                 .then(data => {
                     console.log(data);                    
                 }, err => {

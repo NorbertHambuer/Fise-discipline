@@ -18,7 +18,8 @@ module.exports = {
     listarePlanInvatamant,
     deleteMaterie,
     addMaterie,
-    getMateriiAnCurent
+    getMateriiAnCurent,
+    getMaterieId
 }
 
 const fs = require('fs');
@@ -72,8 +73,7 @@ async function login(ctx) {
         password: ctx.request.body.password
     }
     let found = false;
-    await utilizatori.find({ $and: [{ 'username': user.username }, { 'pass': user.password }] }, function (err, result) {
-        console.log(result);
+    await utilizatori.find({ $and: [{ 'username': user.username }, { 'pass': user.password }] }, function (err, result) {        
         if (err)
             throw err;
         if (result.length != 0) {
@@ -83,14 +83,12 @@ async function login(ctx) {
     }).then(function () {
         console.log("here");
     });
-    
+    console.log(found);
     let promise = new Promise((res, rej) => {
         jwt.sign({ user }, 'secretkey', { expiresIn: '1d' }, (err, token) => {
             if (err) {
                 rej(err);
-            }
-            console.log(token);
-
+            }            
             res({ token: token });
         });
     });
@@ -269,10 +267,11 @@ async function getSeriiArray() {
 }
 
 async function deleteMaterie(ctx) {
-    let idMaterie = ctx.request.body.idMaterie;    
+    let idMaterie = ctx.query.idMaterie;    
+    
     await materii.remove({ "_id": idMaterie });
     
-    await generateOrd(ctx.request.body.idSerie, idMaterie, ctx.request.body.ord, false);
+    await generateOrd(ctx.query.idSerie, idMaterie, ctx.query.ord, false);
     ctx.body = "Item deleted!";
 }
 
@@ -643,4 +642,10 @@ async function getMateriiAnCurent(ctx) {
     result.fourthSerie = fourthSerie.an_start + " - " + fourthSerie.an_stop;
     
     ctx.body = result;
+}
+
+async function getMaterieId(ctx) {
+    let materie = await materii.find({ idMaterie: ctx.query.id_materie });
+
+    ctx.body = materie;
 }
