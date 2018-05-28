@@ -1,58 +1,193 @@
 ﻿<section>
     <div class="container">
-        <div class="row">
-            <div class="col-sm-12 mr-auto ml-auto mt-2">
-                <span>Serie:</span>
-                <div>
-                    <input class="form-control" type="text" ng-model="vm.numeSerie"/>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12 mt-5">
-                <span>
-                    Anul 
-                    <select ng-options="item as item for item in vm.an" ng-model="vm.anSelectat">
-                    </select>
-                    , Semestrul
-                    <select ng-options="item as item for item in vm.sem" ng-model="vm.semSelectat">
-                    </select>
-                </span>
-                <div class="mt-1">
-                    <div class="row" ng-repeat="materii in vm.materii">
-                        <div class="col-sm-6" style="padding-right: 0px">
-                            <input class="form-control" type="text" placeholder="Nume materie ..." ng-model="materii.numeMaterie" />
-                        </div>
-                        <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
-                            <input class="form-control" type="number" placeholder="C" ng-model="materii.C" />
-                        </div>
-                        <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
-                            <input class="form-control" type="number" placeholder="S" ng-model="materii.S" />
-                        </div>
-                        <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
-                            <input class="form-control" type="number" placeholder="L" ng-model="materii.L" />
-                        </div>
-                        <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
-                            <input class="form-control" type="number" placeholder="P" ng-model="materii.P" />
-                        </div>
-                        <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
-                            <input class="form-control" type="number" placeholder="PR" ng-model="materii.PR" />
-                        </div>
-                        <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
-                            <input class="form-control" type="number" placeholder="CR" ng-model="materii.CR" />
-                        </div>
-                        <div class="col-sm-1" style="padding-left: 0px; padding-right: 0px">
-                            <input class="form-control" type="text" placeholder="Eval" ng-model="materii.Eval" />
-                        </div>
-                    </div>
-                    <div class="mt-2">
-                        <button class="btn btn-success" ng-click="vm.adMat()">Adauga materie</button>
-                        <button class="btn btn-info mt-1" ng-click="vm.salveazaSerie()">Salveaza semestru</button>
-                        <button class="btn btn-danger" ng-click="vm.delMat()">Sterge materie</button>
-                    </div>
-                </div>
-            </div>
+        <div class="row mt-3 mb-3">
+            <span class="col-sm-1 mb-2 mt-2" style="padding: 0px;">Serie:</span>
+            <input class="form-control col-sm-8" type="text" ng-model="vm.numeSerie" />
+            <button class="btn btn-info" ng-click="vm.salveazaSerie()">Salveaza serie</button>
         </div>
 
+        <div class="row mt-5">
+            <div class="col-sm-6">
+                <h3>Anul: 1</h3>
+            </div>
+            <div>
+                <h3>Semestru: 1</h3>
+            </div>
+        </div>
+        <div class="row" ng-repeat="data in vm.dataLastSerie.a1s1.data">
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="Ord ..." ng-model="data.ord" /></div>
+            <div class="col-sm-4" style="padding: 0px;"><input class="form-control" type="text" placeholder="Disciplina ..." ng-model="data.disciplina" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="C ..." ng-model="data.C" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="S ..." ng-model="data.S" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="L ..." ng-model="data.L" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="P ..." ng-model="data.P" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="CR ..." ng-model="data.CR" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="Eval ..." ng-model="data.Evaluare" /></div>
+            <div class="col-sm-1 mt-1" ng-click="vm.stergeMaterie('a1s1', $index)"><i class="fa fa-fw fa-remove" style="color: red"></i></div>
+        </div>
+        <div class="row mb-2">
+            <button class="btn btn-success mt-3" ng-click="vm.adaugaMaterieNoua('a1s1')">Adauga materie noua</button>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-sm-6">
+                <h3>Anul: 1</h3>
+            </div>
+            <div>
+                <h3>Semestru: 2</h3>
+            </div>
+        </div>
+        <div class="row" ng-repeat="data in vm.dataLastSerie.a1s2.data">
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="Ord ..." ng-model="data.ord" /></div>
+            <div class="col-sm-4" style="padding: 0px;"><input class="form-control" type="text" placeholder="Disciplina ..." ng-model="data.disciplina" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="C ..." ng-model="data.C" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="S ..." ng-model="data.S" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="L ..." ng-model="data.L" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="P ..." ng-model="data.P" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="CR ..." ng-model="data.CR" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="Eval ..." ng-model="data.Evaluare" /></div>
+            <div class="col-sm-1 mt-1" ng-click="vm.stergeMaterie('a1s2', $index)"><i class="fa fa-fw fa-remove" style="color: red"></i></div>
+        </div>
+        <div class="row mb-2">
+            <button class="btn btn-success mt-3" ng-click="vm.adaugaMaterieNoua('a1s2')">Adauga materie noua</button>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-sm-6">
+                <h3>Anul: 2</h3>
+            </div>
+            <div>
+                <h3>Semestru: 1</h3>
+            </div>
+        </div>
+        <div class="row" ng-repeat="data in vm.dataLastSerie.a2s1.data">
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="Ord ..." ng-model="data.ord" /></div>
+            <div class="col-sm-4" style="padding: 0px;"><input class="form-control" type="text" placeholder="Disciplina ..." ng-model="data.disciplina" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="C ..." ng-model="data.C" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="S ..." ng-model="data.S" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="L ..." ng-model="data.L" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="P ..." ng-model="data.P" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="CR ..." ng-model="data.CR" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="Eval ..." ng-model="data.Evaluare" /></div>
+            <div class="col-sm-1 mt-1" ng-click="vm.stergeMaterie('a2s1', $index)"><i class="fa fa-fw fa-remove" style="color: red"></i></div>
+        </div>
+        <div class="row mb-2">
+            <button class="btn btn-success mt-3" ng-click="vm.adaugaMaterieNoua('a2s1')">Adauga materie noua</button>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-sm-6">
+                <h3>Anul: 2</h3>
+            </div>
+            <div>
+                <h3>Semestru: 2</h3>
+            </div>
+        </div>
+        <div class="row" ng-repeat="data in vm.dataLastSerie.a2s2.data">
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="Ord ..." ng-model="data.ord" /></div>
+            <div class="col-sm-4" style="padding: 0px;"><input class="form-control" type="text" placeholder="Disciplina ..." ng-model="data.disciplina" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="C ..." ng-model="data.C" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="S ..." ng-model="data.S" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="L ..." ng-model="data.L" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="P ..." ng-model="data.P" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="CR ..." ng-model="data.CR" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="Eval ..." ng-model="data.Evaluare" /></div>
+            <div class="col-sm-1 mt-1" ng-click="vm.stergeMaterie('a2s2', $index)"><i class="fa fa-fw fa-remove" style="color: red"></i></div>
+        </div>
+        <div class="row mb-2">
+            <button class="btn btn-success mt-3" ng-click="vm.adaugaMaterieNoua('a2s2')">Adauga materie noua</button>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-sm-6">
+                <h3>Anul: 3</h3>
+            </div>
+            <div>
+                <h3>Semestru: 1</h3>
+            </div>
+        </div>
+        <div class="row" ng-repeat="data in vm.dataLastSerie.a3s1.data">
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="Ord ..." ng-model="data.ord" /></div>
+            <div class="col-sm-4" style="padding: 0px;"><input class="form-control" type="text" placeholder="Disciplina ..." ng-model="data.disciplina" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="C ..." ng-model="data.C" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="S ..." ng-model="data.S" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="L ..." ng-model="data.L" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="P ..." ng-model="data.P" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="CR ..." ng-model="data.CR" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="Eval ..." ng-model="data.Evaluare" /></div>
+            <div class="col-sm-1 mt-1" ng-click="vm.stergeMaterie('a3s1', $index)"><i class="fa fa-fw fa-remove" style="color: red"></i></div>
+        </div>
+        <div class="row mb-2">
+            <button class="btn btn-success mt-3" ng-click="vm.adaugaMaterieNoua('a3s1')">Adauga materie noua</button>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-sm-6">
+                <h3>Anul: 3</h3>
+            </div>
+            <div>
+                <h3>Semestru: 2</h3>
+            </div>
+        </div>
+        <div class="row" ng-repeat="data in vm.dataLastSerie.a3s2.data">
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="Ord ..." ng-model="data.ord" /></div>
+            <div class="col-sm-4" style="padding: 0px;"><input class="form-control" type="text" placeholder="Disciplina ..." ng-model="data.disciplina" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="C ..." ng-model="data.C" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="S ..." ng-model="data.S" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="L ..." ng-model="data.L" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="P ..." ng-model="data.P" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="CR ..." ng-model="data.CR" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="Eval ..." ng-model="data.Evaluare" /></div>
+            <div class="col-sm-1 mt-1" ng-click="vm.stergeMaterie('a3s2', $index)"><i class="fa fa-fw fa-remove" style="color: red"></i></div>
+        </div>
+        <div class="row mb-2">
+            <button class="btn btn-success mt-3" ng-click="vm.adaugaMaterieNoua('a3s2')">Adauga materie noua</button>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-sm-6">
+                <h3>Anul: 4</h3>
+            </div>
+            <div>
+                <h3>Semestru: 1</h3>
+            </div>
+        </div>
+        <div class="row" ng-repeat="data in vm.dataLastSerie.a4s1.data">
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="Ord ..." ng-model="data.ord" /></div>
+            <div class="col-sm-4" style="padding: 0px;"><input class="form-control" type="text" placeholder="Disciplina ..." ng-model="data.disciplina" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="C ..." ng-model="data.C" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="S ..." ng-model="data.S" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="L ..." ng-model="data.L" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="P ..." ng-model="data.P" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="CR ..." ng-model="data.CR" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="Eval ..." ng-model="data.Evaluare" /></div>
+            <div class="col-sm-1 mt-1" ng-click="vm.stergeMaterie('a4s1', $index)"><i class="fa fa-fw fa-remove" style="color: red"></i></div>
+        </div>
+        <div class="row mb-2">
+            <button class="btn btn-success mt-3" ng-click="vm.adaugaMaterieNoua('a4s1')">Adauga materie noua</button>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-sm-6">
+                <h3>Anul: 4</h3>
+            </div>
+            <div>
+                <h3>Semestru: 2</h3>
+            </div>
+        </div>
+        <div class="row" ng-repeat="data in vm.dataLastSerie.a4s2.data">
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="Ord ..." ng-model="data.ord" /></div>
+            <div class="col-sm-4" style="padding: 0px;"><input class="form-control" type="text" placeholder="Disciplina ..." ng-model="data.disciplina" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="C ..." ng-model="data.C" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="S ..." ng-model="data.S" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="L ..." ng-model="data.L" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="P ..." ng-model="data.P" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="CR ..." ng-model="data.CR" /></div>
+            <div class="col-sm-1" style="padding: 0px;"><input class="form-control" type="text" placeholder="Eval ..." ng-model="data.Evaluare" /></div>
+            <div class="col-sm-1 mt-1" ng-click="vm.stergeMaterie('a4s2', $index)"><i class="fa fa-fw fa-remove" style="color: red"></i></div>
+        </div>
+        <div class="row mb-2">
+            <button class="btn btn-success mt-3" ng-click="vm.adaugaMaterieNoua('a4s2')">Adauga materie noua</button>
+        </div>
     </div>
 </section>

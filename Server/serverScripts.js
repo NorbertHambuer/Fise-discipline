@@ -6,7 +6,7 @@ module.exports = {
     login: login,
     register: register,
     home: home,
-    verifyToken: verifyToken,
+    //verifyToken: verifyToken,
     newSeries: newSeries,
     getLastSerie,
     getLastSerieMaterii,
@@ -269,7 +269,6 @@ async function getNextIdMaterii() {
     let lastMaterie = await materii.findOne({}).sort({ _id: 'desc' });
     return lastMaterie._id+1;
 }
-
 
 async function addMaterie(ctx) {
     let materie = ctx.request.body.materie;

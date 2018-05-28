@@ -34,7 +34,7 @@ module app {
             const defered = this.$q.defer();
             this.$http.post('/register', { username: username, password: password, fName: fName, lName: lName, email: email })
                 .then(data => {
-                    defered.resolve();
+                    defered.resolve(data);
                 }, err => {
                     defered.reject(err)
                 });
