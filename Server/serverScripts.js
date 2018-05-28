@@ -128,7 +128,19 @@ async function register(ctx) {
 }
 
 async function newSeries(ctx) {
-    console.log(ctx.request.body);
+    let serieInfo = ctx.request.body.serie.split('-');
+    let nextSerieId = await getNextIdSerii();
+    let serieNoua = await serii.insertMany([{ "_id": nextSerieId, "an_start": serieInfo[0], "an_stop": serieInfo[1], "specializare" : "cal" }]);
+    let idSerie = serieNoua[0]._id;
+    let idMaterie = await getNextIdMaterii();
+    for (var anArray in ctx.request.body.materii) {
+        let materiiArray = ctx.request.body.materii[anArray];        
+        for (let materie of materiiArray) {            
+            await materii.insertMany([{ "_id": idMaterie, "id_serie": idSerie, "ord": materie.ord, "disciplina": materie.disciplina, "an": materie.an, "sem": materie.sem, "C": materie.C, "S": materie.S, "L": materie.L, "P": materie.P, "CR": materie.CR, "Evaluare": materie.Evaluare, "PR": materie.PR }]);
+            idMaterie++;
+        }
+    }
+    
     ctx.body = 'Done!';
 }
 
@@ -280,6 +292,11 @@ async function getNextIdDetaliiMaterie() {
 async function getNextIdMaterii() {
     let lastMaterie = await materii.findOne({}).sort({ _id: 'desc' });
     return lastMaterie._id+1;
+}
+
+async function getNextIdSerii() {
+    let lastSerie = await serii.findOne({}).sort({ _id: 'desc' });    
+    return lastSerie._id + 1;
 }
 
 async function addMaterie(ctx) {
@@ -588,11 +605,11 @@ async function getMateriiAnCurent(ctx) {
     let thirdSerie = await serii.findOne({ "an_start": { $lt: secondSerie.an_start } }).sort({ an_start: 'desc' });
     let fourthSerie = await serii.findOne({ "an_start": { $lt: thirdSerie.an_start } }).sort({ an_start: 'desc' });
     let result = {};
-    let materiiFirst = await materii.find({ id_serie: firstSerie._id });
-    let materiiSecond = await materii.find({ id_serie: secondSerie._id });
-    let materiiThird = await materii.find({ id_serie: thirdSerie._id });
-    let materiiFourth = await materii.find({ id_serie: fourthSerie._id }); 
-
+    let materiiFirst = await materii.find({ $and: [{ id_serie: firstSerie._id }, { an: 1 }] });
+    let materiiSecond = await materii.find({ $and: [{ id_serie: secondSerie._id }, { an: 2 }] });
+    let materiiThird = await materii.find({ $and: [{ id_serie: thirdSerie._id }, { an: 3 }] });
+    let materiiFourth = await materii.find({ $and: [{ id_serie: fourthSerie._id }, { an: 4 }] }); 
+    
     materiiFirst.map((obj) => {
         obj.serieNr = firstSerie.an_start + " - " + firstSerie.an_stop;
         return obj;
