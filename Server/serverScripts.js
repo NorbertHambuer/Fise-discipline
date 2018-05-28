@@ -117,7 +117,7 @@ async function register(ctx) {
             throw err;
 
 
-        if (!result.length) {
+        if (result.length == 0) {
             utilizatori.create({ username: newUser.username, pass: newUser.password, nume: newUser.fName, prenume: newUser.lName, email: newUser.email });
             success = true;
         }

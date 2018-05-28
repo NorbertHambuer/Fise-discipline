@@ -116,11 +116,12 @@ route.get('/getMateriiAnCurent', routes.getMateriiAnCurent);
 route.post('/login', body, routes.login);
 route.post('/register', body, routes.register);
 route.post('/newSeries', body, routes.newSeries);//post
-route.post('/editMaterie', body, routes.editMaterie);
+route.post('/editMaterie', body, routes.editMaterie);//put
 route.post('/fisaDisciplina', body, routes.listareFisaDisciplina);
 route.post('/planInvatamant', body, routes.listarePlanInvatamant);
-route.post('/deleteMaterie', body, routes.deleteMaterie);
-route.post('/addMaterie', body, routes.addMaterie);
+route.post('/deleteMaterie', body, routes.deleteMaterie);//delete
+route.post('/addMaterie', body, routes.addMaterie);//post
+//route.get('/getMaterie', routes.getMaaterieId);//get
 
 
 app.use(serve('../client'));
