@@ -250,7 +250,7 @@ var app;
         Edit.prototype.deleteMaterie = function (element, index) {
             var _this = this;
             if (confirm("Sigur doriti sa stergeti aceasta materie?"))
-                this.$http.post('/deleteMaterie', { idMaterie: element._id })
+                this.$http.post('/deleteMaterie', { idMaterie: element._id, idSerie: element.id_serie, ord: element.ord })
                     .then(function (data) {
                     var dataIndex = element.an + "s" + element.sem;
                     _this.data[dataIndex].data.splice(index, 1);
@@ -260,6 +260,10 @@ var app;
                     _this.data[dataIndex].P -= element.P;
                     _this.data[dataIndex].PR -= element.PR;
                     _this.data[dataIndex].S -= element.S;
+                    for (var i = 0; i < _this.data[dataIndex].data.length; i++)
+                        if (_this.data[dataIndex].data[i].ord >= element.ord && _this.data[dataIndex].data[i]._id != element._id) {
+                            _this.data[dataIndex].data[i].ord = (parseFloat(_this.data[dataIndex].data[i].ord) - 1) + ".00";
+                        }
                 }, function (err) {
                     console.log(err);
                 });
@@ -280,7 +284,9 @@ var app;
             var _this = this;
             this.$http.post('/addMaterie', { materie: this.materieNoua })
                 .then(function (data) {
-                _this.materieNoua._id = data.data;
+                var response = {};
+                response = data.data;
+                _this.materieNoua._id = response.id_materie;
                 var dataIndex = _this.materieNoua.an + "s" + _this.materieNoua.sem;
                 _this.data[dataIndex].data.push(_this.materieNoua);
                 _this.data[dataIndex].C += _this.materieNoua.C;
@@ -289,12 +295,18 @@ var app;
                 _this.data[dataIndex].P += _this.materieNoua.P;
                 _this.data[dataIndex].PR += _this.materieNoua.PR;
                 _this.data[dataIndex].S = _this.materieNoua.S;
+                var materieNoua = _this.materieNoua;
+                if (response.reorder)
+                    for (var i = 0; i < _this.data[dataIndex].data.length; i++)
+                        if (_this.data[dataIndex].data[i].ord >= materieNoua.ord && _this.data[dataIndex].data[i]._id != materieNoua._id) {
+                            _this.data[dataIndex].data[i].ord = (parseFloat(_this.data[dataIndex].data[i].ord) + 1) + ".00";
+                        }
             }, function (err) {
                 console.log(err);
             });
         };
         Edit.prototype.checkMaxOrd = function () {
-            if (parseFloat(this.materieNoua.ord) > parseFloat(this.maxOrd)) {
+            if (parseFloat(this.materieNoua.ord) >= parseFloat(this.maxOrd)) {
                 alert("Ord trebuie sa fie mai mic!");
                 this.materieNoua.ord = "";
             }

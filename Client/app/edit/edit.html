@@ -79,7 +79,7 @@
                     
                         <input class="form-control" type="text" placeholder="Eval" ng-model="vm.materieNoua.Evaluare" />
                    
-                        <input class="form-control" type="text" placeholder="Ord" ng-model="vm.materieNoua.ord" ng-change="vm.checkMaxOrd()"/>    
+                        <input class="form-control" type="text" placeholder="Ord" ng-model="vm.materieNoua.ord" ng-blur="vm.checkMaxOrd()"/>    
                     
                         <button class="btn btn-success" ng-click="vm.adaugareMaterieNoua()" data-toggle="modal" data-target="#myModal">Salveaza</button>                    
                 </div>

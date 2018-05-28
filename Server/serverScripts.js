@@ -247,7 +247,8 @@ async function getSeriiArray() {
 async function deleteMaterie(ctx) {
     let idMaterie = ctx.request.body.idMaterie;    
     await materii.remove({ "_id": idMaterie });
-
+    
+    await generateOrd(ctx.request.body.idSerie, idMaterie, ctx.request.body.ord, false);
     ctx.body = "Item deleted!";
 }
 
@@ -274,8 +275,49 @@ async function getNextIdMaterii() {
 async function addMaterie(ctx) {
     let materie = ctx.request.body.materie;
     let id_materie = await saveMaterie(materie);    
+    let duplicate = await materii.findOne({ ord: materie.ord });
+    let resp = {};
+    
+    if (duplicate) {
+        await generateOrd(materie.id_serie, id_materie, materie.ord, true);
+        resp.reorder = true;
+    }
+    else
+        resp.reorder = false;
+    resp.id_materie = id_materie;
+    
+    ctx.body = resp;
+}
 
-    ctx.body = id_materie;
+async function generateOrd(id_serie,id_materie, ord, add = true) {
+    let materiiUpd = await materii.find({ id_serie: id_serie });
+    let newOrd = 0;
+    
+    for (let element of materiiUpd) {
+        if (element._id != id_materie && parseFloat(element.ord) >= parseFloat(ord)) {
+            if(add == true)
+                newOrd = parseFloat(element.ord) + 1;
+            else
+                newOrd = parseFloat(element.ord) -  1;
+            var query = { _id: element._id },
+                update = {
+                    ord: newOrd + ".00"
+                },
+                options = { upsert: true, new: false, setDefaultsOnInsert: true };
+
+            await materii.findOneAndUpdate(query, update, options, function (error, result) {
+                if (!error) {
+                    result.save(function (error) {
+                        if (!error) {
+                            console.log("Item Saved!");
+                        } else {
+                            throw error;
+                        }
+                    });
+                }
+            });
+        }
+    }
 }
 
 async function listareFisaDisciplina(ctx) {
@@ -571,6 +613,5 @@ async function getMateriiAnCurent(ctx) {
     result.thirdSerie = thirdSerie.an_start + " - " + thirdSerie.an_stop;
     result.fourthSerie = fourthSerie.an_start + " - " + fourthSerie.an_stop;
 
-    console.log(result);
     ctx.body = result;
 }

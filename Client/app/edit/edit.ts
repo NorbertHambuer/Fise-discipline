@@ -74,8 +74,9 @@ module app {
 
         deleteMaterie(element, index) {
             if(confirm("Sigur doriti sa stergeti aceasta materie?"))            
-            this.$http.post('/deleteMaterie', { idMaterie: element._id })
+            this.$http.post('/deleteMaterie', { idMaterie: element._id, idSerie: element.id_serie, ord: element.ord })
                 .then(data => {
+
                     let dataIndex = element.an + "s" + element.sem;
                     this.data[dataIndex].data.splice(index, 1);
                     this.data[dataIndex].C -= element.C;
@@ -83,7 +84,11 @@ module app {
                     this.data[dataIndex].L -= element.L;
                     this.data[dataIndex].P -= element.P;
                     this.data[dataIndex].PR -= element.PR;
-                    this.data[dataIndex].S -= element.S;
+                    this.data[dataIndex].S -= element.S;                    
+                        for (let i = 0; i < this.data[dataIndex].data.length; i++)
+                            if (this.data[dataIndex].data[i].ord >= element.ord && this.data[dataIndex].data[i]._id != element._id) {
+                                this.data[dataIndex].data[i].ord = (parseFloat(this.data[dataIndex].data[i].ord) - 1) + ".00";
+                            }
                 }, err => {
                     console.log(err);
                 });            
@@ -104,8 +109,11 @@ module app {
 
         adaugareMaterieNoua() {            
         this.$http.post('/addMaterie', { materie: this.materieNoua })
-            .then(data => {                
-                    this.materieNoua._id = data.data;
+            .then(data => {            
+                    
+                    let response = <any>{};
+                    response = data.data;
+                    this.materieNoua._id = response.id_materie;
                     let dataIndex = this.materieNoua.an + "s" + this.materieNoua.sem;
                     this.data[dataIndex].data.push(this.materieNoua);
                     this.data[dataIndex].C += this.materieNoua.C;
@@ -114,13 +122,19 @@ module app {
                     this.data[dataIndex].P += this.materieNoua.P;
                     this.data[dataIndex].PR += this.materieNoua.PR;
                     this.data[dataIndex].S = this.materieNoua.S;
+                    let materieNoua = this.materieNoua;
+                    if (response.reorder)
+                        for (let i = 0; i < this.data[dataIndex].data.length; i++)
+                            if (this.data[dataIndex].data[i].ord >= materieNoua.ord && this.data[dataIndex].data[i]._id != materieNoua._id) {
+                                this.data[dataIndex].data[i].ord = (parseFloat(this.data[dataIndex].data[i].ord) + 1) + ".00";                            
+                            }
                 }, err => {
                     console.log(err);
                 });                        
         }
 
         checkMaxOrd() {
-            if (parseFloat(this.materieNoua.ord) > parseFloat(this.maxOrd)) {
+            if (parseFloat(this.materieNoua.ord) >= parseFloat(this.maxOrd)) {
                 alert("Ord trebuie sa fie mai mic!");
                 this.materieNoua.ord = "";
             }
