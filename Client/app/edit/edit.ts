@@ -19,6 +19,7 @@ module app {
             this.materieNoua.an = 0;
             this.materieNoua.sem = 0;
             this.materieNoua.id_serie = parseInt(this.serieSelectata);
+            this.materieNoua._id = 0;
             this.maxOrd = "0.00";
         }
 
@@ -103,7 +104,8 @@ module app {
 
         adaugareMaterieNoua() {            
         this.$http.post('/addMaterie', { materie: this.materieNoua })
-                .then(data => {
+            .then(data => {                
+                    this.materieNoua._id = data.data;
                     let dataIndex = this.materieNoua.an + "s" + this.materieNoua.sem;
                     this.data[dataIndex].data.push(this.materieNoua);
                     this.data[dataIndex].C += this.materieNoua.C;

@@ -273,9 +273,9 @@ async function getNextIdMaterii() {
 
 async function addMaterie(ctx) {
     let materie = ctx.request.body.materie;
-    await saveMaterie(materie);    
+    let id_materie = await saveMaterie(materie);    
 
-    ctx.body = "Item saved!";
+    ctx.body = id_materie;
 }
 
 async function listareFisaDisciplina(ctx) {
