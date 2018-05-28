@@ -28,8 +28,19 @@ module app {
                 && this.dataLastSerie.a3s1.data.length > 0 && this.dataLastSerie.a3s2.data.length > 0
                 && this.dataLastSerie.a4s1.data.length > 0 && this.dataLastSerie.a4s2.data.length > 0) {
 
-                this.$http.post('/newSeries', { serie: this.numeSerie, materii: this.materii })
-                    .then(data => {
+                this.$http.post('/newSeries', {
+                    serie: this.numeSerie,
+                    materii: {
+                        a1s1: this.dataLastSerie.a1s1.data,
+                        a1s2: this.dataLastSerie.a1s2.data,
+                        a2s1: this.dataLastSerie.a2s1.data,
+                        a2s2: this.dataLastSerie.a2s2.data,
+                        a3s1: this.dataLastSerie.a3s1.data,
+                        a3s2: this.dataLastSerie.a3s2.data,
+                        a4s1: this.dataLastSerie.a4s1.data,
+                        a4s2: this.dataLastSerie.a4s2.data,
+                    }
+                    }).then(data => {
                         console.log(data);
                         this.materii = [];
                     }, err => {
