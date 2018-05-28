@@ -622,6 +622,6 @@ async function getMateriiAnCurent(ctx) {
     result.secondSerie = secondSerie.an_start + " - " + secondSerie.an_stop;
     result.thirdSerie = thirdSerie.an_start + " - " + thirdSerie.an_stop;
     result.fourthSerie = fourthSerie.an_start + " - " + fourthSerie.an_stop;
-    result.materii.sort(compare);
+    
     ctx.body = result;
 }

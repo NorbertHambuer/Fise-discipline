@@ -84,11 +84,21 @@ module app {
                     this.data[dataIndex].L -= element.L;
                     this.data[dataIndex].P -= element.P;
                     this.data[dataIndex].PR -= element.PR;
-                    this.data[dataIndex].S -= element.S;                    
-                        for (let i = 0; i < this.data[dataIndex].data.length; i++)
-                            if (this.data[dataIndex].data[i].ord >= element.ord && this.data[dataIndex].data[i]._id != element._id) {
-                                this.data[dataIndex].data[i].ord = (parseFloat(this.data[dataIndex].data[i].ord) - 1) + ".00";
-                            }
+                    this.data[dataIndex].S -= element.S;           
+                    let dataIndexOne = element.an + "s1";
+                    let dataIndexTwo = element.an + "s2";
+                    for (let i = 0; i < this.data[dataIndexOne].data.length; i++) {
+                        console.log(this.data[dataIndexOne].data[i].ord);
+                        if (this.data[dataIndexOne].data[i].ord >= element.ord && this.data[dataIndexOne].data[i]._id != element._id) {
+                            this.data[dataIndexOne].data[i].ord = (parseFloat(this.data[dataIndexOne].data[i].ord) - 1) + ".00";
+                        }
+                    }
+                    for (let i = 0; i < this.data[dataIndexTwo].data.length; i++) {
+                        console.log(this.data[dataIndexTwo].data[i].ord);
+                        if (this.data[dataIndexTwo].data[i].ord >= element.ord && this.data[dataIndexTwo].data[i]._id != element._id) {
+                            this.data[dataIndexTwo].data[i].ord = (parseFloat(this.data[dataIndexTwo].data[i].ord) - 1) + ".00";
+                        }
+                    }
                 }, err => {
                     console.log(err);
                 });            
@@ -123,11 +133,21 @@ module app {
                     this.data[dataIndex].PR += this.materieNoua.PR;
                     this.data[dataIndex].S = this.materieNoua.S;
                     let materieNoua = this.materieNoua;
-                    if (response.reorder)
-                        for (let i = 0; i < this.data[dataIndex].data.length; i++)
-                            if (this.data[dataIndex].data[i].ord >= materieNoua.ord && this.data[dataIndex].data[i]._id != materieNoua._id) {
-                                this.data[dataIndex].data[i].ord = (parseFloat(this.data[dataIndex].data[i].ord) + 1) + ".00";                            
-                            }
+                if (response.reorder) {
+                    let dataIndexOne = this.materieNoua.an + "s1";
+                    let dataIndexTwo = this.materieNoua.an + "s2";
+                    for (let i = 0; i < this.data[dataIndexOne].data.length; i++)
+                        if (this.data[dataIndexOne].data[i].ord >= materieNoua.ord && this.data[dataIndexOne].data[i]._id != materieNoua._id) {
+                            this.data[dataIndexOne].data[i].ord = (parseFloat(this.data[dataIndexOne].data[i].ord) + 1) + ".00";
+                        }
+                    this.data[dataIndexOne].data.sort(this.compare);
+                    for (let i = 0; i < this.data[dataIndexTwo].data.length; i++)
+                        if (this.data[dataIndexTwo].data[i].ord >= materieNoua.ord && this.data[dataIndexTwo].data[i]._id != materieNoua._id) {
+                            this.data[dataIndexTwo].data[i].ord = (parseFloat(this.data[dataIndexTwo].data[i].ord) + 1) + ".00";
+                        }
+                    this.data[dataIndexTwo].data.sort(this.compare);
+                }
+                    
                 }, err => {
                     console.log(err);
                 });                        
@@ -138,6 +158,14 @@ module app {
                 alert("Ord trebuie sa fie mai mic!");
                 this.materieNoua.ord = "";
             }
+        }
+
+        compare(a, b) {
+            if (parseFloat(a.ord) < parseFloat(b.ord))
+                return -1;
+            if (parseFloat(a.ord) > parseFloat(b.ord))
+                return 1;
+            return 0;
         }
 
     }
