@@ -344,6 +344,7 @@ var app;
             this.$http.get('/getSerii')
                 .then(function (data) {
                 _this.serii = data.data;
+                _this.serii.splice(0, 0, { _id: -1, an_start: "Anul", an_stop: "Curent" });
                 _this.serieSelectata = _this.serii[0];
             }, function (err) {
                 console.log(err);
@@ -370,20 +371,31 @@ var app;
         };
         Home.prototype.getMateriiSerie = function () {
             var _this = this;
-            this.$http.get('/getMateriiSerieId', {
-                params: { id_serie: this.serieSelectata }
-            })
-                .then(function (data) {
-                _this.data = _this.formatMateriiDb(data);
-                localStorage.setItem("idSerieCurenta", _this.serieSelectata);
-            }, function (err) {
-                console.log(err);
-            });
+            console.log(this.serieSelectata);
+            if (this.serieSelectata == -1)
+                this.$http.get('/getMateriiAnCurent', {
+                    params: { id_serie: this.serieSelectata }
+                })
+                    .then(function (data) {
+                    _this.data = _this.formatMateriiDb(data);
+                    localStorage.setItem("idSerieCurenta", _this.serieSelectata);
+                }, function (err) {
+                    console.log(err);
+                });
+            else
+                this.$http.get('/getMateriiSerieId', {
+                    params: { id_serie: this.serieSelectata }
+                })
+                    .then(function (data) {
+                    _this.data = _this.formatMateriiDb(data);
+                    localStorage.setItem("idSerieCurenta", _this.serieSelectata);
+                }, function (err) {
+                    console.log(err);
+                });
         };
         Home.prototype.formatMateriiDb = function (dataDb) {
             var data = {};
             data.info = dataDb.data;
-            console.log(data);
             var materiiData = {};
             data.info.materii.forEach(function (element) {
                 var propName = element.an + "s" + element.sem;
@@ -396,6 +408,16 @@ var app;
                     materiiData[propName].P = 0;
                     materiiData[propName].PR = 0;
                     materiiData[propName].S = 0;
+                }
+                if (element.sem == 1) {
+                    if (element.an == 1)
+                        materiiData[propName].serieNr = dataDb.data.firstSerie;
+                    if (element.an == 2)
+                        materiiData[propName].serieNr = dataDb.data.secondSerie;
+                    if (element.an == 3)
+                        materiiData[propName].serieNr = dataDb.data.thirdSerie;
+                    if (element.an == 4)
+                        materiiData[propName].serieNr = dataDb.data.fourthSerie;
                 }
                 materiiData[propName].C += parseInt(element.C) || 0;
                 materiiData[propName].CR += parseInt(element.CR) || 0;

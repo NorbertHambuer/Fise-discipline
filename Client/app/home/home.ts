@@ -25,6 +25,7 @@ module app {
             this.$http.get('/getSerii')
                 .then(data => {                   
                     this.serii = data.data;
+                    this.serii.splice(0,0,{_id:-1,an_start:"Anul",an_stop:"Curent"});
                     this.serieSelectata = this.serii[0];
                 }, err => {
                     console.log(err);
@@ -54,21 +55,32 @@ module app {
         }
 
         getMateriiSerie() {
-            this.$http.get('/getMateriiSerieId', {
-                params: { id_serie: this.serieSelectata }
-            })
-                .then(data => {                   
-                    this.data = this.formatMateriiDb(data);
-                    localStorage.setItem("idSerieCurenta", this.serieSelectata);
-                }, err => {
-                    console.log(err);
-                });
+            console.log(this.serieSelectata);
+            if (this.serieSelectata == -1) 
+                this.$http.get('/getMateriiAnCurent', {
+                    params: { id_serie: this.serieSelectata }
+                })
+                    .then(data => {                        
+                        this.data = this.formatMateriiDb(data);         
+                        localStorage.setItem("idSerieCurenta", this.serieSelectata);
+                    }, err => {
+                        console.log(err);
+                    });
+            else
+                this.$http.get('/getMateriiSerieId', {
+                    params: { id_serie: this.serieSelectata }
+                })
+                    .then(data => {                  
+                        this.data = this.formatMateriiDb(data);
+                        localStorage.setItem("idSerieCurenta", this.serieSelectata);
+                    }, err => {
+                        console.log(err);
+                    });
         }
 
         formatMateriiDb(dataDb) {
             let data = <any>{};
-            data.info = dataDb.data;
-            console.log(data);
+            data.info = dataDb.data;            
             let materiiData = <any>{};
             data.info.materii.forEach(function (element) {
                 let propName = element.an + "s" + element.sem;
@@ -82,6 +94,16 @@ module app {
                     materiiData[propName].PR = 0;
                     materiiData[propName].S = 0;
                 }
+                if (element.sem == 1) {
+                    if (element.an == 1)
+                        materiiData[propName].serieNr = dataDb.data.firstSerie;
+                    if (element.an == 2)
+                        materiiData[propName].serieNr = dataDb.data.secondSerie;
+                    if (element.an == 3)
+                        materiiData[propName].serieNr = dataDb.data.thirdSerie;
+                    if (element.an == 4)
+                        materiiData[propName].serieNr = dataDb.data.fourthSerie;
+                }
                 materiiData[propName].C += parseInt(element.C) || 0;
                 materiiData[propName].CR += parseInt(element.CR) || 0;
                 materiiData[propName].L += parseInt(element.L) || 0;
@@ -89,8 +111,9 @@ module app {
                 materiiData[propName].PR += parseInt(element.PR) || 0;
                 materiiData[propName].S += parseInt(element.S) || 0;
                 materiiData[propName].data.push(element);
+                
             });
-
+            
             return materiiData;
         }
 

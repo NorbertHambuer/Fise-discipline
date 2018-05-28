@@ -17,7 +17,8 @@ module.exports = {
     listareFisaDisciplina,
     listarePlanInvatamant,
     deleteMaterie,
-    addMaterie
+    addMaterie,
+    getMateriiAnCurent
 }
 
 const fs = require('fs');
@@ -527,4 +528,50 @@ async function listarePlanInvatamant(ctx) {
         }
     ])*/    
     ctx.body = "Success!";
+}
+
+async function getMateriiAnCurent(ctx) {    
+    let year = (new Date()).getFullYear();
+    let firstSerie = await serii.findOne({ "an_start": { $lte: year } }).sort({an_start : 'desc'});
+    let secondSerie = await serii.findOne({ "an_start": { $lt: firstSerie.an_start } }).sort({ an_start: 'desc' });
+    let thirdSerie = await serii.findOne({ "an_start": { $lt: secondSerie.an_start } }).sort({ an_start: 'desc' });
+    let fourthSerie = await serii.findOne({ "an_start": { $lt: thirdSerie.an_start } }).sort({ an_start: 'desc' });
+    let result = {};
+    let materiiFirst = await materii.find({ id_serie: firstSerie._id });
+    let materiiSecond = await materii.find({ id_serie: secondSerie._id });
+    let materiiThird = await materii.find({ id_serie: thirdSerie._id });
+    let materiiFourth = await materii.find({ id_serie: fourthSerie._id }); 
+
+    materiiFirst.map((obj) => {
+        obj.serieNr = firstSerie.an_start + " - " + firstSerie.an_stop;
+        return obj;
+    })
+
+    materiiSecond.map((obj) => {
+        obj.serieNr = secondSerie.an_start + " - " + secondSerie.an_stop;
+        return obj;
+    })
+
+    materiiThird.map((obj) => {
+        obj.serieNr = thirdSerie.an_start + " - " + thirdSerie.an_stop;
+        return obj;
+    })
+
+    materiiFourth.map((obj) => {
+        obj.serieNr = fourthSerie.an_start + " - " + fourthSerie.an_stop;
+        return obj;
+    })
+
+    result.materii = materiiFirst;    
+    result.materii = result.materii.concat(materiiSecond);
+    result.materii = result.materii.concat(materiiThird);
+    result.materii = result.materii.concat(materiiFourth);
+
+    result.firstSerie = firstSerie.an_start + " - " + firstSerie.an_stop;
+    result.secondSerie = secondSerie.an_start + " - " + secondSerie.an_stop;
+    result.thirdSerie = thirdSerie.an_start + " - " + thirdSerie.an_stop;
+    result.fourthSerie = fourthSerie.an_start + " - " + fourthSerie.an_stop;
+
+    console.log(result);
+    ctx.body = result;
 }

@@ -77,6 +77,7 @@ route.get('/getLastSerieMaterii', routes.getLastSerieMaterii);
 route.get('/getSerii', routes.getSerii);
 route.get('/getMateriiSerieId', routes.getMateriiSerieId);
 route.get('/getDetaliiMaterie', routes.getDetaliiMaterie);
+route.get('/getMateriiAnCurent', routes.getMateriiAnCurent);
 route.post('/login', body, routes.login);
 route.post('/register', body, routes.register);
 route.post('/newSeries', body, routes.newSeries);//post

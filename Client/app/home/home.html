@@ -9,6 +9,11 @@
         </div>
         <div class="row" ng-repeat="item in vm.data">
             <div class="col-md-12 mt-5">
+                <div class="row" ng-if="item.data[0].sem==1 && vm.serieSelectata==-1">
+                    <div class="col-sm-6">
+                        <h3>Seria {{item.serieNr}}</h3>
+                    </div>                   
+                </div>
                 <div class="row">
                     <div class="col-sm-6">
                         <h3>Anul: {{item.data[0].an}}</h3>
