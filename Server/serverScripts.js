@@ -25,12 +25,21 @@ const fs = require('fs');
 const pdf = require('html-pdf');
 const http = require('http');
 
+function compare(a, b) {
+    if (parseFloat(a.ord) < parseFloat(b.ord))
+        return -1;
+    if (parseFloat(a.ord) > parseFloat(b.ord))
+        return 1;
+    return 0;
+}
+
 async function home() { }
 
 async function getLastSerieMaterii(ctx) {
     let data = {};
     data.serie = await serii.findOne({}).sort({ an_start: 'desc' });    
     data.materii = await materii.find({ id_serie: data.serie._id });
+    data.materii.sort(compare);
     ctx.body = data;
 }
 
@@ -41,6 +50,7 @@ async function getLastSerie(ctx) {
 async function getMateriiSerieId(ctx) {
     let data = {};
     data.materii = await materii.find({ id_serie: ctx.query.id_serie });
+    data.materii.sort(compare);
     ctx.body = data;
 }
 
@@ -612,6 +622,6 @@ async function getMateriiAnCurent(ctx) {
     result.secondSerie = secondSerie.an_start + " - " + secondSerie.an_stop;
     result.thirdSerie = thirdSerie.an_start + " - " + thirdSerie.an_stop;
     result.fourthSerie = fourthSerie.an_start + " - " + fourthSerie.an_stop;
-
+    result.materii.sort(compare);
     ctx.body = result;
 }
