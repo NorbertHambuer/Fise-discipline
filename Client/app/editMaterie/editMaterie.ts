@@ -23,7 +23,6 @@ module app {
         materie;
         detalii;
         id;
-        message = 'EditMaterie';
 
         save() {
             this.$http.put('/materie', { materie: this.materie, detalii_materie: this.detalii })

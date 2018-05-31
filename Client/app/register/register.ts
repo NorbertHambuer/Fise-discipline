@@ -10,7 +10,6 @@ module app {
         lName;
         email;
 
-
         register() {
             this.user.register(this.username, this.password, this.fName, this.lName, this.email)
                 .then(data => {

@@ -7,11 +7,13 @@
     "name": "Ovidiu Podina"
   },
   "dependencies": {
+    "fs": "0.0.1-security",
     "html-pdf": "^2.2.0",
     "jsonwebtoken": "^8.2.0",
     "koa": "^2.5.0",
     "koa-body": "^2.5.0",
     "koa-router": "^7.4.0",
+    "koa-send": "^4.1.3",
     "koa-static": "^4.0.2",
     "mongodb": "^3.0.4",
     "mongoose": "^5.0.11",

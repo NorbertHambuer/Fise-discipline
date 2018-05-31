@@ -1,18 +1,19 @@
 ﻿<section>
     <div class="container">
+
+        <div class="form-group">
+            <button class="btn btn-info mt-1 fa fa-file-pdf-o" id="listarePlanButton" ng-click="vm.listarePlanInvatamant()"> Plan Invatamant</button>
+        </div>
         <div class="form-group">
             <label for="sel1">Seria</label>
             <select ng-options="item._id as item.an_start + ' - ' + item.an_stop for item in vm.serii" ng-model="vm.serieSelectata" ng-change="vm.getMateriiSerie()"></select>
         </div>
-        <div class="form-group">            
-            <button class="btn btn-info mt-1 fa fa-file-pdf-o" id="listarePlanButton" ng-click="vm.listarePlanInvatamant()"> Plan Invatamant</button>
-        </div>
         <div class="row" ng-repeat="item in vm.data">
-            <div class="col-md-12 mt-5">
+            <div class="col-md-12 mt-3">
                 <div class="row" ng-if="item.data[0].sem==1 && vm.serieSelectata==-1">
                     <div class="col-sm-6">
                         <h3>Seria {{item.serieNr}}</h3>
-                    </div>                   
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
@@ -27,7 +28,7 @@
                     <thead>
                         <tr>
                             <td ng-show="vm.user.identity.isAuthenticated"></td>
-                            <td ng-show="vm.user.identity.isAuthenticated"></td>
+                            <td></td>
                             <th>Ord</th>
                             <th>Disciplina</th>
                             <th>C</th>
@@ -41,7 +42,7 @@
                     <tbody>
                         <tr ng-repeat="el in item.data">
                             <td ng-show="vm.user.identity.isAuthenticated"><i class="fa fa-fw fa-edit" ng-click="vm.editMaterie(el._id)"></i></td>
-                            <td ng-show="vm.user.identity.isAuthenticated"><i class="fa fa-file-pdf-o" ng-click="vm.listareFisa(el._id)"></i></td>
+                            <td><i class="fa fa-file-pdf-o" ng-click="vm.listareFisa(el._id)"></i></td>
                             <td>{{ el.ord }}</td>
                             <td>{{ el.disciplina }}</td>
                             <td>{{ el.C }}</td>
@@ -52,7 +53,7 @@
                             <td>{{ el.Evaluare }}</td>
                         </tr>
                         <tr>
-                            <td> </td>
+                            <td ng-show="vm.user.identity.isAuthenticated"> </td>
                             <td>  </td>
                             <td> - </td>
                             <td>TOTAL <span style="padding-left: 60%;">{{ item.C + item.S + item.L }} ore/sapt</span></td>

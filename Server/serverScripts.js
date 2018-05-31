@@ -1,12 +1,9 @@
 'use strict';
 
-const jwt = require('jsonwebtoken');
-
 module.exports = {
     login: login,
     register: register,
     home: home,
-    //verifyToken: verifyToken,
     newSeries: newSeries,
     getLastSerie,
     getLastSerieMaterii,
@@ -22,6 +19,8 @@ module.exports = {
     getMaterieId
 }
 
+const jwt = require('jsonwebtoken');
+const send = require('koa-send');
 const fs = require('fs');
 const pdf = require('html-pdf');
 const http = require('http');
@@ -93,7 +92,11 @@ async function login(ctx) {
         });
     });
 
-    ctx.body = await promise;
+    if (found === true) {
+        ctx.body = await promise;
+    } else {
+        ctx.status = 401;
+    }
 }
 
 async function register(ctx) {
@@ -383,12 +386,9 @@ async function listareFisaDisciplina(ctx) {
     await pdf.create(pdfContent, options).toFile('./fisaDisciplina.pdf', function (err, res) {
         if (err) return console.log(err);
         console.log(res); // { filename: '/app/businesscard.pdf' }
-
     });
+
     ctx.body = pdfContent;
-   // ctx.body = fs.createReadStream('./fisaDisciplina.pdf');
-  //  ctx.set('Content-disposition', 'attachment; filename=' + 'fisaDisciplina');
-    //ctx.set('Content-type', 'application/pdf');
 }
 
 async function listarePlanInvatamant(ctx) {
@@ -570,38 +570,12 @@ async function listarePlanInvatamant(ctx) {
 
     });
 
-    /*
-    let detaliiMaterii = await materii.aggregate([
-        {
-            $lookup:
-                {
-                    from: "detalii_materii",
-                    let: { id_serie: "$id_serie", id: "$_id" },
-                    pipeline: [
-                        {
-                            $match:
-                                {
-                                    $expr:
-                                        {
-                                            $and:
-                                                [
-                                                    { $eq: [5, "$$id_serie"] },
-                                                    { $eq: ["$id_materie", "$$id"] }
-                                                ]
-                                        }
-                                }
-                        }
-                    ],
-                    as: "detalii"
-                }
-        }
-    ])*/    
     ctx.body = "Success!";
 }
 
 async function getMateriiAnCurent(ctx) {    
     let year = (new Date()).getFullYear();
-    let firstSerie = await serii.findOne({ "an_start": { $lte: year } }).sort({an_start : 'desc'});
+    let firstSerie = await serii.findOne({ "an_start": { $lte: year } }).sort({ an_start: 'desc' });
     let secondSerie = await serii.findOne({ "an_start": { $lt: firstSerie.an_start } }).sort({ an_start: 'desc' });
     let thirdSerie = await serii.findOne({ "an_start": { $lt: secondSerie.an_start } }).sort({ an_start: 'desc' });
     let fourthSerie = await serii.findOne({ "an_start": { $lt: thirdSerie.an_start } }).sort({ an_start: 'desc' });

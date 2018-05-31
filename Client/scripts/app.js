@@ -440,7 +440,6 @@ var app;
             var _this = this;
             this.$http = $http;
             this.$routeParams = $routeParams;
-            this.message = 'EditMaterie';
             this.id = this.$routeParams.id;
             this.$http.get('/getDetaliiMaterie', {
                 params: { id_materie: this.id }
@@ -505,6 +504,7 @@ var app;
         Home.prototype.listareFisa = function (id) {
             this.$http.post('/fisaDisciplina', { id_materie: id })
                 .then(function (data) {
+                window.open('localhost:10001/fisaDisciplina.pdf');
                 console.log(data);
             }, function (err) {
                 console.log(err);
@@ -514,6 +514,7 @@ var app;
             this.$http.post('/planInvatamant', { id_serie: this.serieSelectata })
                 .then(function (data) {
                 console.log(data);
+                window.open('localhost:10001/planInvatamant.pdf');
             }, function (err) {
                 console.log(err);
             });
@@ -598,6 +599,7 @@ var app;
                     .then(function (data) {
                     _this.$location.path('/home');
                 }, function (err) {
+                    alert('Datele introduse sunt gresite!');
                     console.log(err);
                 });
             }

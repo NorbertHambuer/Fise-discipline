@@ -15,14 +15,13 @@ module app {
                     .then(data => {
                         this.$location.path('/home');
                     }, err => {
+                        alert('Datele introduse sunt gresite!');
                         console.log(err);
                     });
             } else {
                 alert('Campurile trebuie sa fie completate!');
             }
         }
-
-
 
         register() {
             this.$location.path('/register');

@@ -1,105 +1,84 @@
 ﻿<section>
-    <div class="container-fluid">
-        <div class="form-control col-xl-8 offset-2">
-            <label class="col-xl-4" for="denumire_disciplina">Denumire disciplina:</label>
-            <input class="form-control col-xl-8" type="text" id="denumire_disciplina" name="denumire_disciplina" ng-model="vm.materie.disciplina" />
+    <div class="container">
+        <div class="row mt-3">
+            <h3>{{ vm.materie.disciplina }}</h3>
         </div>
-        <div class="form-control">
+        <div class="row form-control mt-2">
+            <label for="denumire_disciplina">Denumire disciplina:</label>
+            <input class="form-control" type="text" id="denumire_disciplina" name="denumire_disciplina" ng-model="vm.materie.disciplina" />
+
             <label for="responsabil_curs">Responsabil curs:</label>
             <input class="form-control" type="text" id="responsabil_curs" ng-model="vm.detalii.responsabil" />
-        </div>
-        <div class="form-control">
+
             <label for="titular_activitati">Titular activitati:</label>
             <input class="form-control" type="text" id="titular_activitati" ng-model="vm.detalii.titular" />
-        </div>
-        <div class="form-control">
+
             <label for="an">Anul de studiu:</label>
             <input class="form-control" type="number" id="an" ng-model="vm.materie.an" />
-        </div>
-        <div class="form-control">
+
             <label for="sem">Semestrul:</label>
             <input class="form-control" type="number" id="sem" ng-model="vm.materie.sem" />
-        </div>
-        <div class="form-control">
+
             <label for="ord">ORD:</label>
             <input class="form-control" type="text" id="ord" ng-model="vm.materie.ord" />
-        </div>
-        <div class="form-control">
+
             <label for="CR">CR:</label>
             <input class="form-control" type="number" id="CR" ng-model="vm.materie.CR" />
-        </div>
-        <div class="form-control">
+
             <label for="C">C:</label>
             <input class="form-control" type="number" id="C" ng-model="vm.materie.C" />
-        </div>
-        <div class="form-control">
+
             <label for="S">S:</label>
             <input class="form-control" type="number" id="S" ng-model="vm.materie.S" />
-        </div>
-        <div class="form-control">
+
             <label for="sem">L:</label>
             <input class="form-control" type="number" id="L" ng-model="vm.materie.L" />
-        </div>
-        <div class="form-control">
+
             <label for="sem">P:</label>
             <input class="form-control" type="number" id="P" ng-model="vm.materie.P" />
-        </div>
-        <div class="form-control">
+
             <label for="PR">PR:</label>
             <input class="form-control" type="number" id="PR" ng-model="vm.materie.PR" />
-        </div>
-        <div class="form-control">
+
             <label for="tip_evaluare">Tipul de evaluare:</label>
             <input class="form-control" type="text" id="tip_evaluare" ng-model="vm.materie.Evaluare" />
-        </div>
-        <div class="form-control">
+
             <label for="cat_disciplina">Cat disciplina:</label>
             <input class="form-control" type="text" id="cat_disciplina" ng-model="vm.detalii.cat" />
-        </div>
-        <div class="form-control">
+
             <label for="tip_disciplina">Tipul disciplinei:</label>
             <input class="form-control" type="text" id="tip_disciplina" ng-model="vm.detalii.tip" />
-        </div>
-        <div class="form-control">
+
             <label for="ore_curs_sapt">Nr. ore curs pe saptamana:</label>
             <input class="form-control" type="number" id="ore_curs_sapt" ng-model="vm.detalii.ore_curs" />
-        </div>
-        <div class="form-control">
+
             <label for="ore_lab_sapt">Nr. ore laborator/seminar pe saptamana:</label>
             <input class="form-control" type="number" id="ore_lab_sapt" ng-model="vm.detalii.ore_laborator" />
-        </div>
-        <div class="form-control">
+
             <label for="ore_curs_total">Total nr. ore curs:</label>
             <input class="form-control" type="number" id="ore_curs_total" ng-model="vm.detalii.total_ore_curs" />
-        </div>
-        <div class="form-control">
+
             <label for="ore_lab_total">Total nr. ore laborator:</label>
             <input class="form-control" type="number" id="ore_lab_total" ng-model="vm.detalii.total_ore_laborator" />
-        </div>
-        <div class="form-control">
+
             <label for="ore_studiu">Studiu dupa manual, notite:</label>
             <input class="form-control" type="number" id="ore_studiu" ng-model="vm.detalii.ore_studiu" />
-        </div>
-        <div class="form-control">
+
             <label for="ore_documentare">Documentare suplimentara in biblioteca:</label>
             <input class="form-control" type="number" id="ore_documentare" ng-model="vm.detalii.ore_documentatie" />
-        </div>
-        <div class="form-control">
+
             <label for="ore_pregatire">Pregatire seminarii/laboratoare, teme:</label>
             <input class="form-control" type="number" id="ore_pregatire" ng-model="vm.detalii.ore_pregatire" />
-        </div>
-        <div class="form-control">
+
             <label for="ore_tutoriat">Tutoriat:</label>
             <input class="form-control" type="number" id="ore_tutoriat" ng-model="vm.detalii.ore_tutoriat" />
-        </div>
-        <div class="form-control">
+
             <label for="ore_examinari">Examinari:</label>
             <input class="form-control" type="number" id="ore_examinari" ng-model="vm.detalii.ore_examinari" />
-        </div>
-        <div class="form-control">
+
             <label for="ore_alte_activitari">Alte activitari:</label>
             <input class="form-control" type="number" id="ore_lab_total" ng-model="vm.detalii.ore_activitati" />
         </div>
-        <button class="btn btn-success" ng-click="vm.save()">Salveaza</button>
+        <button class="btn btn-success mt-2 mb-2" ng-click="vm.save()">Salveaza</button>
     </div>
 </section>

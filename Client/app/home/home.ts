@@ -39,6 +39,7 @@ module app {
         listareFisa(id) {        
             this.$http.post('/fisaDisciplina', { id_materie: id })
                 .then(data => {
+                    window.open('localhost:10001/fisaDisciplina.pdf');
                     console.log(data);
                 }, err => {
                     console.log(err);
@@ -49,6 +50,7 @@ module app {
             this.$http.post('/planInvatamant', { id_serie: this.serieSelectata })
                 .then(data => {
                     console.log(data);
+                    window.open('localhost:10001/planInvatamant.pdf');
                 }, err => {
                     console.log(err);
                 });
